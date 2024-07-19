@@ -21,12 +21,33 @@
     </header>
 
     <main>
-        <div>
-            <div id="map"></div>
+        <div id="main-item1">
+            <div>
+                <div id="map"></div>
+                <div id="searchpoint-item">
+                    <form action="#" method="GET" id="searchpoint_form" onsubmit="return false;">
+                        <label for="searchpoint_input">Номер свалки</label>
+                        <input type="text" size="5" id="searchpoint_input">
+                        <input type="submit" id="searchpoint_button" name="search" value="Искать" tabindex="0">
+                    </form>
+                </div>
+            </div>
             <div id="side-bar"></div>
         </div>
-        <div>
-            <div id="map-goals"></div>
+        <div id="main-item2">
+            <div id="map-goals">
+                <p>
+                    <b>Цели карты:</b>
+                    <ul>
+                        <li>показать обществу и власти масштаб экологической катастрофы, в которую мы валимся. Если ни чего не делать — мы скоро утонем в этом мусоре;</li>
+                        <li>картографировать все несанкционированные свалки и мусор в городе и области, чтобы потом все это убрать.</li>
+                    </ul>
+                </p>
+                <p>Карту нужно наполнять информацией — это просто, это может сделать любой из вас. Если Вы знаете о таких свалках — вы можете добавить эту информацию на карту мусора. Для этого необходимо <a href="#">зарегистрироваться</a>.</p>
+                <p>Вы можете просто добавить точку на карту, описать, что это за мусор, загрузить фотографии, если они у вас есть. После добавления все точки утверждаются администратором или доверенным волонтером (это такой человек, который съездит и своими глазами проверит свалку). Свалкой мы считаем любую кучу мусора более чем 2х2 метра.</p>
+                <p><a href="#">Регистрация</a> даст вам возможность добавлять точки под своим именем. Если вы зарегистрируетесь и будете добавлять точки, информация о которых будет подтверждаться, то через некоторое время вам присвоится статус доверенного волонтера и вы сможете добавлять точки без дополнительной проверки.</p>
+                <p>Если вы сразу хотите стать доверенным волонтером, пишите нам на <a href="mailto:info@erarzn.ru">info@erarzn.ru</a>.</p>
+            </div>
             <div id="new-map-points"></div>
         </div>
     </main>
@@ -39,7 +60,8 @@
     </footer>
 
     <script src="./js/index.js" type="text/javascript"></script>
-    <script src="https://api-maps.yandex.ru/v3/?apikey=ade640f9-e502-4413-92aa-66a27573a574&lang=ru_RU"></script>
+    <!--<script src="https://api-maps.yandex.ru/v3/?apikey=ade640f9-e502-4413-92aa-66a27573a574&lang=ru_RU"></script>-->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ade640f9-e502-4413-92aa-66a27573a574&lang=ru_RU"></script>
     <script src="./js/map_view.js" type="text/javascript"></script>
 </body>
 </html>
