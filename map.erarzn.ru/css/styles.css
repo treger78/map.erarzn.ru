@@ -1,0 +1,42 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+}
+
+header h1 {
+    color: #00a542;
+    padding-bottom: 0.8rem;
+}
+
+#header-text {
+    padding-left: 1rem;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    background-image: url("../img/footer-background.gif");
+    color: white;
+    padding: 1.5rem;
+    min-height: 5rem;
+}
+
+#footer-era-link {
+    color: #fff8ac;
+}
+
+footer p {
+    padding: 0.2rem 0;
+}
+
+#map {
+    height: 10rem;
+    width: 10rem;
+}
