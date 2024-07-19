@@ -37,6 +37,33 @@ footer p {
 }
 
 #map {
-    height: 10rem;
-    width: 10rem;
+    width: auto;
+    height: 30rem;
+}
+
+#main-item1, #main-item2 {
+    padding: 0.5rem 3rem;
+}
+
+#searchpoint-item {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    padding-right: 1rem;
+}
+
+#searchpoint_button {
+    padding: 0.1rem;
+}
+
+#map-goals ul {
+    padding-left: 3rem;
+}
+
+#map-goals p {
+    padding: 0.5rem;
+}
+
+#map-goals a {
+    color: #00a542;
 }
