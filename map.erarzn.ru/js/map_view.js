@@ -1,27 +1,8 @@
-async function initMap() {
-    // Промис `ymaps3.ready` будет зарезолвлен, когда загрузятся все компоненты основного модуля API
-    await ymaps3.ready;
+ymaps.ready(init);
 
-    const {YMap, YMapDefaultSchemeLayer} = ymaps3;
-
-    // Иницилиазируем карту
-    const map = new YMap(
-        // Передаём ссылку на HTMLElement контейнера
-        document.getElementById('map'),
-
-        // Передаём параметры инициализации карты
-        {
-            location: {
-                // Координаты центра карты
-                center: [4.610254981579146, 39.7265625],
-                // Уровень масштабирования
-                zoom: 10
-            }
-        }
-    );
-
-    // Добавляем слой для отображения схематической карты
-    map.addChild(new YMapDefaultSchemeLayer());
+function init() {
+    const map = new ymaps.Map("map", {
+        center: [54.61, 39.72],
+        zoom: 9
+    });
 }
-
-//initMap();
