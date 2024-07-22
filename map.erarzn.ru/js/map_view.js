@@ -1,3 +1,5 @@
+import trashPoints from './trash_points.js';
+
 ymaps.ready(init);
 
 function init() {
@@ -26,10 +28,10 @@ function init() {
         [54.62, 39.72]
     ];
     
-    for (let i = 0; i < coords.length; i += 1) {
+    for (let i = 0; i < trashPoints.length; i += 1) {
         map.geoObjects.add(
             new ymaps.Placemark(
-                coords[i],
+                [trashPoints[i].lat, trashPoints[i].lng],
                 {
                     iconContent: 'С',
                     balloonContentHeader: 'Заголовок раскрывающегося при клике на метку контента',
