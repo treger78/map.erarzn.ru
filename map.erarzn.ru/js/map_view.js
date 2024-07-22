@@ -15,32 +15,61 @@ function init() {
     //30 - промышленные
 
     //status - статус отмеченного на карте мусора:
-    //-20 - grey, отменена
+    //-20 - gray, отменена
     //0 - yellow, не проверена
     //10 - orange, переданно в спец. органы
     //20 - red, проверена
     //30 - #33ffff ~ligthblue, идет уборка
     //40 - green, убрана
-
-    const coords = [
-        [54.60, 39.70],
-        [54.61, 39.71],
-        [54.62, 39.72]
-    ];
     
     for (let i = 0; i < trashPoints.length; i += 1) {
+        const point = trashPoints[i];
+        let iconContent;
+        let presetColor;
+
+        switch (point.categ) {
+            case '10': iconContent = 'С';
+            break;
+
+            case '20': iconContent = 'Б';
+            break;
+
+            case '30': iconContent = 'П';
+            break;
+        }
+
+        switch (point.status) {
+            case "-20": presetColor = 'islands#grayIcon';
+            break;
+
+            case "0": presetColor = 'islands#yellowIcon';
+            break;
+
+            case "10": presetColor = 'islands#orangeIcon';
+            break;
+
+            case "20": presetColor = 'islands#redIcon';
+            break;
+            
+            case "30": presetColor = 'islands#lightBlueIcon';
+            break;
+
+            case "40": presetColor = 'islands#greenIcon';
+            break;
+        }
+
         map.geoObjects.add(
             new ymaps.Placemark(
-                [trashPoints[i].lat, trashPoints[i].lng],
+                [point.lat, point.lng],
                 {
-                    iconContent: 'С',
+                    iconContent: iconContent,
                     balloonContentHeader: 'Заголовок раскрывающегося при клике на метку контента',
                     balloonContentBody: 'Тело контента',
                     balloonContentFooter: 'Подвал',
-                    /*balloonContent: 'Контент при клике',*/
+                    //balloonContent: 'Контент при клике',
                 },
                 {
-                    preset: 'islands#yellowIcon',
+                    preset: presetColor,
                 }
             )
         );
