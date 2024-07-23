@@ -15,8 +15,10 @@ header h1 {
     padding-bottom: 0.8rem;
 }
 
-#header-text {
-    padding-left: 1rem;
+@media (width <= 1048px) {
+    header {
+        flex-direction: column;
+    }
 }
 
 footer {
@@ -36,8 +38,11 @@ footer p {
     padding: 0.2rem 0;
 }
 
+#map-area {
+    width: 99wv;
+}
+
 #map {
-    width: auto;
     height: 30rem;
 }
 
