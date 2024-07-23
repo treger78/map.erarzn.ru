@@ -26,16 +26,23 @@ function init() {
         const point = trashPoints[i];
         let iconContent;
         let presetColor;
+        let trashCategory;
 
         switch (point.categ) {
-            case '10': iconContent = 'С';
-            break;
+            case '10': {
+                iconContent = 'С';
+                trashCategory = 'строительный мусор';
+            }; break;
 
-            case '20': iconContent = 'Б';
-            break;
+            case '20': {
+                iconContent = 'Б';
+                trashCategory = 'бытовые отходы';
+            }; break;
 
-            case '30': iconContent = 'П';
-            break;
+            case '30': {
+                iconContent = 'П';
+                trashCategory = 'промышленные отходы';
+            }; break;
         }
 
         switch (point.status) {
@@ -63,8 +70,10 @@ function init() {
                 [point.lat, point.lng],
                 {
                     iconContent: iconContent,
-                    balloonContentHeader: 'Заголовок раскрывающегося при клике на метку контента',
-                    balloonContentBody: 'Тело контента',
+                    balloonContentHeader: `${point.id}. ${point.name}`,
+                    balloonContentBody: `
+                    ${trashCategory}
+                    `,
                     balloonContentFooter: 'Подвал',
                     //balloonContent: 'Контент при клике',
                 },
