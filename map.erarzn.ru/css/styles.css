@@ -72,3 +72,34 @@ footer p {
 #map-goals a {
     color: #00a542;
 }
+
+#new-map-points caption {
+    text-align: left;
+}
+
+#new-map-points h1 {
+    color: #00a542;
+    padding: 0.5rem;
+}
+
+#new-map-points table {
+    display: block;
+    overflow: auto;
+    max-width: 100%;
+}
+
+#new-map-points thead td {
+    background-color: #e4efcd;
+    font-weight: bold;
+    color: #1fa500;
+    padding: 0.5rem;
+}
+
+#new-map-points-table-body td {
+    padding: 0.3rem;
+}
+
+.trash-point-name, .volunteer-name {
+    color: #00a542;
+    text-decoration: underline;
+}
