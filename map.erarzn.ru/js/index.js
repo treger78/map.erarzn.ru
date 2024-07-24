@@ -48,7 +48,7 @@ for (let i = trashPoints.length - 1; i > trashPoints.length - 11; i -= 1) {
         }; break;
 
         case "40": {
-            presetColor = 'убрана';
+            trashStatus = 'убрана';
             trashStatusColor = 'green';
         }; break;
     }
