@@ -75,12 +75,32 @@ function init() {
                     ${trashCategory}
                     `,
                     balloonContentFooter: 'Подвал',
-                    //balloonContent: 'Контент при клике',
                 },
                 {
                     preset: presetColor,
+                    hideIconOnBalloonOpen: false,
                 }
             )
         );
     }
+
+    document.getElementById("searchpoint_button").addEventListener('click', () => {
+        const pointIDSearchInput = document.getElementById('searchpoint_input');
+        const pointID = pointIDSearchInput.value;
+
+        if (!pointID) return undefined;
+
+        for (let i = 0; i < map.geoObjects.getLength(); i += 1) {
+            const placemark = map.geoObjects.get(i);
+            const placemarkID = placemark.properties._data.balloonContentHeader.split('.')[0];
+
+            if (placemarkID === pointID) {
+                placemark.balloon.open();
+
+                pointIDSearchInput.value = '';
+
+                break;
+            }
+        }
+    });
 }
