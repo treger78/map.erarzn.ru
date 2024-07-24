@@ -25,8 +25,9 @@ function init() {
     for (let i = 0; i < trashPoints.length; i += 1) {
         const point = trashPoints[i];
         let iconContent;
-        let presetColor;
         let trashCategory;
+        let trashStatus;
+        let trashStatusColor;
 
         switch (point.categ) {
             case '10': {
@@ -46,23 +47,35 @@ function init() {
         }
 
         switch (point.status) {
-            case "-20": presetColor = 'islands#grayIcon';
-            break;
+            case "-20": {
+                trashStatus = 'отменена';
+                trashStatusColor = 'gray';
+            }; break;
 
-            case "0": presetColor = 'islands#yellowIcon';
-            break;
+            case "0": {
+                trashStatus = 'не проверена';
+                trashStatusColor = 'yellow';
+            }; break;
 
-            case "10": presetColor = 'islands#orangeIcon';
-            break;
+            case "10": {
+                trashStatus = 'переданно в спец. органы';
+                trashStatusColor = 'orange';
+            }; break;
 
-            case "20": presetColor = 'islands#redIcon';
-            break;
+            case "20": {
+                trashStatus = 'проверена';
+                trashStatusColor = 'red';
+            }; break;
             
-            case "30": presetColor = 'islands#lightBlueIcon';
-            break;
+            case "30": {
+                trashStatus = 'идет уборка';
+                trashStatusColor = 'lightBlue';
+            }; break;
 
-            case "40": presetColor = 'islands#greenIcon';
-            break;
+            case "40": {
+                trashStatus = 'убрана';
+                trashStatusColor = 'green';
+            }; break;
         }
 
         map.geoObjects.add(
@@ -72,12 +85,16 @@ function init() {
                     iconContent: iconContent,
                     balloonContentHeader: `${point.id}. ${point.name}`,
                     balloonContentBody: `
-                    ${trashCategory}
+                    <div><small>${trashCategory}</small></div>
+                    <div><small>Добавил точку: волонтёр</small></div>
+                    <div><small>Статус точки: <span style="background-color: ${trashStatusColor}">${trashStatus}</span></small></div>
                     `,
-                    balloonContentFooter: 'Подвал',
+                    balloonContentFooter: `
+                    <small class="balloon-footer-detail">Подробно →</small>
+                    `,
                 },
                 {
-                    preset: presetColor,
+                    preset: `islands#${trashStatusColor}Icon`,
                     hideIconOnBalloonOpen: false,
                 }
             )
