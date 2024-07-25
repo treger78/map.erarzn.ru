@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Экологический Рязанский альянс - Карта мусорых свалок</title>
+    <title>Экологический Рязанский альянс - Карта свалок мусора</title>
     <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
 </head>
@@ -32,7 +32,33 @@
                     </form>
                 </div>
             </div>
-            <div id="side-bar"></div>
+            <div id="side-bar">
+                <div id="auth-form">
+                    <form action="#" method="post">
+                        <label for="e-mail"><b>E-mail:</b></label>
+                        <input type="text" placeholder="Enter E-mail" name="e-mail" id="e-mail" required>
+
+                        <label for="password"><b>Пароль:</b></label>
+                        <input type="password" placeholder="Enter Password" name="password" id="password" required>
+
+                        <button type="submit" id="login">Войти</button>
+                    </form>
+
+                    <div id="auth-with-vk-item">
+                        <span>Войти через</span>
+                        <button id="auth-with-vk-button"><img src="./img/vk32.png"></button>
+                    </div>
+
+                    <div id="signup-or-reset-password-item">
+                        <a href="#"><small>Регистрация</small></a>
+                        <a href="#"><small>Забыли пароль?</small></a>
+                    </div>
+                </div>
+                <div id="trash-category"></div>
+                <div id="trash-status"></div>
+                <div id="add-trash-point"></div>
+                <div id="total-trash-points"></div>
+            </div>
         </div>
         <div id="main-item2">
             <div id="map-goals">
