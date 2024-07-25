@@ -7,18 +7,13 @@ header {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
     padding: 1rem;
 }
 
 header h1 {
     color: #00a542;
     padding-bottom: 0.8rem;
-}
-
-@media (width <= 1048px) {
-    header {
-        flex-direction: column;
-    }
 }
 
 footer {
@@ -39,14 +34,69 @@ footer p {
 }
 
 #map-area {
-    width: 99wv;
+    width: 80%;
+    order: 2;
+}
+
+@media (width <= 1434px) {
+    #map-area {
+        width: 95%;
+    }
 }
 
 #map {
     height: 30rem;
 }
 
-#main-item1, #main-item2 {
+#side-bar {
+    order: 1;
+}
+
+#main-item1 {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap-reverse;
+    padding: 0.5rem 1.8rem;
+}
+
+#auth-form {
+    width: 15rem;
+}
+
+#e-mail, #password {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#login {
+    background-color: #04AA6D;
+    color: white;
+    padding: 0.9rem;
+    margin: 0.5rem 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+#auth-with-vk-button {
+    background: none;
+    border: none;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#auth-with-vk-item, #signup-or-reset-password-item {
+    text-align: right;
+}
+
+#signup-or-reset-password-item a {
+    color: #00a542
+}
+
+#main-item2 {
     padding: 0.5rem 3rem;
 }
 
