@@ -88,6 +88,11 @@ footer p {
     cursor: pointer;
 }
 
+#auth-with-vk-button img {
+    width: 32px;
+    height: 32px;
+}
+
 #auth-with-vk-item, #signup-or-reset-password-item {
     text-align: right;
 }
