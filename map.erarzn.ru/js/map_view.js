@@ -101,6 +101,8 @@ function init() {
         );
     }
 
+    document.getElementById("total-trash-points").textContent = map.geoObjects.getLength();
+
     document.getElementById("searchpoint_button").addEventListener('click', () => {
         const pointIDSearchInput = document.getElementById('searchpoint_input');
         const pointID = pointIDSearchInput.value;
