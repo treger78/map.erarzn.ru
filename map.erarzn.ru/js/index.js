@@ -9,45 +9,40 @@ for (let i = trashPoints.length - 1; i > trashPoints.length - 11; i -= 1) {
     const trashPoint = trashPoints[i];
 
     newMapPointsTable.insertAdjacentHTML('beforeend', `
-    <td><small>Дата</small></td>
-    <td>${trashPoint.id}</td>
-    <td class="trash-point-name">${trashPoint.name}</td>
-    <td><span style="background-color: ${CONSTS.trashStatus[trashPoint.status].color}">${CONSTS.trashStatus[trashPoint.status].name}</span></td>
-    <td>${CONSTS.trashCategory[trashPoint.categ].name}</td>
-    <td class="volunteer-name">Волонтер</td>
+        <td><small>Дата</small></td>
+        <td>${trashPoint.id}</td>
+        <td class="trash-point-name">${trashPoint.name}</td>
+        <td><span style="background-color: ${CONSTS.trashStatus[trashPoint.status].color}">${CONSTS.trashStatus[trashPoint.status].name}</span></td>
+        <td>${CONSTS.trashCategory[trashPoint.categ].name}</td>
+        <td class="volunteer-name">Волонтер</td>
     `);
 }
 
-//trashCategory - вид отмеченного на карте мусора:
-//10 - строительный мусор
-//20 - бытовые отходы
-//30 - промышленные
-
-//trashStatus - статус отмеченного на карте мусора:
-//-20 - gray, отменена
-//0 - yellow, не проверена
-//10 - orange, переданно в спец. органы
-//20 - red, проверена
-//30 - #33ffff ~ligthblue, идет уборка
-//40 - green, убрана
-
 const trashCategory = document.getElementById("trash-category");
 const trashStatus = document.getElementById("trash-status");
+const trashCategories = Object.keys(CONSTS.trashCategory);
+const trashStatuses = Object.keys(CONSTS.trashStatus);
 
-trashCategory.insertAdjacentHTML('beforeend', `
-    <b>Виды мусора на карте:</b>
-    <div>${CONSTS.trashCategory[10].name}</div>
-    <div>${CONSTS.trashCategory[20].name}</div>
-    <div>${CONSTS.trashCategory[30].name}</div>
-`);
+for (let i = 0; i < trashCategories.length; i += 1) {
+    const trashCategoryID = trashCategories[i];
+    
+    trashCategory.insertAdjacentHTML('beforeend', `
+        <div>
+            <input type="checkbox" id="trashCategory_${trashCategoryID}" checked>
+            <label for="trashCategory_${trashCategoryID}"><b>${CONSTS.trashCategory[trashCategoryID].iconContent}</b> - ${CONSTS.trashCategory[trashCategoryID].name}</label>
+        </div>
+    `);
+}
 
-trashStatus.insertAdjacentHTML('beforeend', `
-    <b>Статус:</b>
-    <div>Все статусы</div>
-    <div style="background-color: ${CONSTS.trashStatus['-20'].color}">${CONSTS.trashStatus['-20'].name}</div>
-    <div style="background-color: ${CONSTS.trashStatus['0'].color}">${CONSTS.trashStatus['0'].name}</div>
-    <div style="background-color: ${CONSTS.trashStatus['10'].color}">${CONSTS.trashStatus['10'].name}</div>
-    <div style="background-color: ${CONSTS.trashStatus['20'].color}">${CONSTS.trashStatus['20'].name}</div>
-    <div style="background-color: ${CONSTS.trashStatus['30'].color}">${CONSTS.trashStatus['30'].name}</div>
-    <div style="background-color: ${CONSTS.trashStatus['40'].color}">${CONSTS.trashStatus['40'].name}</div>
-`);
+for (let i = 0; i < trashStatuses.length; i += 1) {
+    const trashStatusID = trashStatuses[i];
+
+    trashStatus.insertAdjacentHTML('beforeend', `
+        <div>
+            <input type="checkbox" id="trashStatus_${trashStatusID}" checked>
+            <label for="trashStatus_${trashStatusID}">
+                <span style="background-color: ${CONSTS.trashStatus[trashStatusID].color}">${CONSTS.trashStatus[trashStatusID].name}</span>
+            </label>
+        </div>
+    `);
+}
