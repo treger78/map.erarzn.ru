@@ -46,3 +46,19 @@ for (let i = 0; i < trashStatuses.length; i += 1) {
         </div>
     `);
 }
+
+const changeSelectionTrashStatuses = (trashStatusesArray, selectValue) => {
+    for (let i = 0; i < trashStatusesArray.length; i += 1) {
+        document.getElementById(`trashStatus_${trashStatusesArray[i]}`).checked = selectValue;
+    }
+}
+
+const trashStatus_AllStatusCheckbox = document.getElementById("trashStatus_AllStatus");
+
+trashStatus_AllStatusCheckbox.addEventListener('change', () => {
+    if (trashStatus_AllStatusCheckbox.checked) {
+        changeSelectionTrashStatuses(trashStatuses, true);
+    } else {
+        changeSelectionTrashStatuses(trashStatuses, false);
+    }
+});
