@@ -1,0 +1,36 @@
+#map-area {
+    width: 80%;
+    order: 2;
+}
+
+#map {
+    height: 30rem; /*50rem;*/
+}
+
+@media (width <= 1434px) {
+    #map-area {
+        width: 95%;
+    }
+
+    /*
+    #map {
+        height: 30rem;
+    }
+    */
+}
+
+.balloon-footer-detail {
+    color: #00a542;
+    text-decoration: underline;
+}
+
+#searchpoint-item {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    padding-right: 1rem;
+}
+
+#searchpoint_button {
+    padding: 0.1rem;
+}

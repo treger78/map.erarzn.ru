@@ -1,0 +1,12 @@
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+header h1 {
+    color: #00a542;
+    padding-bottom: 0.8rem;
+}
