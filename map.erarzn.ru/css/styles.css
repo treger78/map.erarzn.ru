@@ -113,11 +113,22 @@ footer p {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
 }
 
+#trash-category div, #trash-status div {
+    padding: 0.3rem 0;
+}
+
+#trash-category label, #trash-status label {
+    margin-left: 0.3rem;
+}
+
+#trash-status {
+    margin: 1rem 0 0.5rem 0;
+}
+
 #refresh-map-button {
     background-color: #04AA6D;
     color: white;
     padding: 0.9rem;
-    margin: 0.5rem 0;
     border: none;
     cursor: pointer;
     border-radius: 50px; 
