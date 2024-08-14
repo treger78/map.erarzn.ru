@@ -55,8 +55,22 @@
                     </div>
                 </div>
                 <div id="manage-map-view-points">
-                    <div id="trash-category"></div>
-                    <div id="trash-status"></div>
+                    <div id="trash-category">
+                        <div>
+                            <b>Виды мусора на карте:</b>
+                        </div>
+                    </div>
+                    <div id="trash-status">
+                        <div>
+                            <b>Статус:</b>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="trashStatus_AllStatus" checked>
+                            <label for="trashStatus_AllStatus">
+                                <span>Все статусы</span>
+                            </label>
+                        </div>
+                    </div>
                     <button id="refresh-map-button">Обновить карту</button>
                 </div>
                 <div id="add-trash-point">
@@ -111,7 +125,6 @@
     </footer>
 
     <script src="./js/index.js" type="module"></script>
-    <!--<script src="https://api-maps.yandex.ru/v3/?apikey=ade640f9-e502-4413-92aa-66a27573a574&lang=ru_RU"></script>-->
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ade640f9-e502-4413-92aa-66a27573a574&lang=ru_RU"></script>
     <script src="./js/map_view.js" type="module"></script>
 </body>
