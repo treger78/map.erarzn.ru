@@ -2,32 +2,38 @@ export const CONSTS = {
     trashStatus: {
         "-20": {
             name: "отменена",
-            color: "gray",
+            colorName: "gray",
+            colorHEX: "#80808085",
         },
 
         "0": {
             name: "не проверена",
-            color: "yellow",
+            colorName: "yellow",
+            colorHEX: "#ffff0085",
         },
 
         "10": {
             name: "переданно в спец. органы",
-            color: "orange",
+            colorName: "orange",
+            colorHEX: "#ffa50085",
         },
         
         "20": {
             name: "проверена",
-            color: "red",
+            colorName: "red",
+            colorHEX: "#ff000085",
         },
 
         "30": {
             name: "идет уборка",
-            color: "lightBlue",
+            colorName: "lightBlue",
+            colorHEX: "#ADD8E6",
         },
 
         "40": {
             name: "убрана",
-            color: "green",
+            colorName: "green",
+            colorHEX: "#00800085",
         }
     },
     
