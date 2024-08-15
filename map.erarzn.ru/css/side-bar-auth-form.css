@@ -1,4 +1,6 @@
-#auth-form {
+@import "./variables.css";
+
+#auth-form-item {
     width: 15rem;
 }
 
@@ -11,7 +13,7 @@
 }
 
 #login {
-    background-color: #04AA6D;
+    background-color: var(--green-primary-color);
     color: white;
     padding: 0.9rem;
     margin: 0.5rem 0;
@@ -37,5 +39,5 @@
 }
 
 #signup-or-reset-password-item a {
-    color: #00a542
+    color: var(--green-primary-color);
 }
