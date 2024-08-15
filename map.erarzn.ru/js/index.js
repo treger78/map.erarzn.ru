@@ -12,7 +12,7 @@ for (let i = trashPoints.length - 1; i > trashPoints.length - 11; i -= 1) {
         <td><small>Дата</small></td>
         <td>${trashPoint.id}</td>
         <td class="trash-point-name">${trashPoint.name}</td>
-        <td><span style="background-color: ${CONSTS.trashStatus[trashPoint.status].color}">${CONSTS.trashStatus[trashPoint.status].name}</span></td>
+        <td><span style="background-color: ${CONSTS.trashStatus[trashPoint.status].colorHEX}">${CONSTS.trashStatus[trashPoint.status].name}</span></td>
         <td>${CONSTS.trashCategory[trashPoint.categ].name}</td>
         <td class="volunteer-name">Волонтер</td>
     `);
@@ -41,7 +41,7 @@ for (let i = 0; i < trashStatuses.length; i += 1) {
         <div>
             <input type="checkbox" id="trashStatus_${trashStatusID}" checked>
             <label for="trashStatus_${trashStatusID}">
-                <span style="background-color: ${CONSTS.trashStatus[trashStatusID].color}">${CONSTS.trashStatus[trashStatusID].name}</span>
+                <span style="background-color: ${CONSTS.trashStatus[trashStatusID].colorHEX}">${CONSTS.trashStatus[trashStatusID].name}</span>
             </label>
         </div>
     `);
