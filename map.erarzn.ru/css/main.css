@@ -1,5 +1,6 @@
 @import "./map.css";
 @import "./side-bar.css";
+@import "./variables.css";
 
 #main-item1 {
     display: flex;
@@ -29,7 +30,7 @@
 }
 
 #map-goals a {
-    color: #00a542;
+    color: var(--green-primary-color);
 }
 
 #new-map-points table {
@@ -43,7 +44,7 @@
 }
 
 #new-map-points h1 {
-    color: #00a542;
+    color: var(--green-primary-color);
     padding: 0.5rem;
 }
 
@@ -59,6 +60,6 @@
 }
 
 .trash-point-name, .volunteer-name {
-    color: #00a542;
+    color: var(--green-primary-color);
     text-decoration: underline;
 }
