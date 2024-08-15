@@ -22,14 +22,14 @@ function init() {
                     balloonContentBody: `
                     <div><small>${CONSTS.trashCategory[point.categ].name}</small></div>
                     <div><small>Добавил точку: волонтёр</small></div>
-                    <div><small>Статус точки: <span style="background-color: ${CONSTS.trashStatus[point.status].color}">${CONSTS.trashStatus[point.status].name}</span></small></div>
+                    <div><small>Статус точки: <span style="background-color: ${CONSTS.trashStatus[point.status].colorHEX}">${CONSTS.trashStatus[point.status].name}</span></small></div>
                     `,
                     balloonContentFooter: `
                     <small class="balloon-footer-detail">Подробно →</small>
                     `,
                 },
                 {
-                    preset: `islands#${CONSTS.trashStatus[point.status].color}Icon`,
+                    preset: `islands#${CONSTS.trashStatus[point.status].colorName}Icon`,
                     hideIconOnBalloonOpen: false,
                 }
             )
