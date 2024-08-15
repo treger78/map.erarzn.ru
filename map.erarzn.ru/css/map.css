@@ -1,3 +1,5 @@
+@import "./variables.css";
+
 #map-area {
     width: 80%;
     order: 2;
@@ -20,7 +22,7 @@
 }
 
 .balloon-footer-detail {
-    color: #00a542;
+    color: var(--green-primary-color);
     text-decoration: underline;
 }
 
