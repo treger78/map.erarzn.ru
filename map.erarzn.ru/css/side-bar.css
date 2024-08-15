@@ -1,4 +1,5 @@
 @import "./side-bar-auth-form.css";
+@import "./variables.css";
 
 #side-bar {
     order: 1;
@@ -21,7 +22,7 @@
 }
 
 #refresh-map-button, #add-trash-point button {
-    background-color: #04AA6D;
+    background-color: var(--green-primary-color);
     color: white;
     padding: 0.9rem;
     border: none;
