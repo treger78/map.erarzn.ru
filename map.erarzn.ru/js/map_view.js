@@ -38,7 +38,11 @@ function init() {
         addPlacemark(trashPoints[i], CONSTS);
     }
 
-    document.getElementById("total-trash-points").textContent = map.geoObjects.getLength();
+    const refreshTotalTrashPoints = (map) => {
+        document.getElementById("total-trash-points").textContent = map.geoObjects.getLength();
+    };
+
+    refreshTotalTrashPoints(map);
 
     document.getElementById("searchpoint_button").addEventListener('click', () => {
         const pointIDSearchInput = document.getElementById('searchpoint_input');
@@ -85,5 +89,7 @@ function init() {
                 addPlacemark(point, CONSTS);
             }
         }
+
+        refreshTotalTrashPoints(map);
     });
 }
