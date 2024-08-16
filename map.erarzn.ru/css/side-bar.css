@@ -3,6 +3,7 @@
 
 #side-bar {
     order: 1;
+    width: 15rem;
 }
 
 #side-bar > div {
