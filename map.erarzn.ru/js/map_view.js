@@ -9,8 +9,8 @@ function init() {
         zoom: 9,
         type: 'yandex#hybrid'
     });
-  
-    const addPlacemark = (point, CONSTS) => {
+
+    const addPlacemark = (map, point, CONSTS) => {
         return map.geoObjects.add(
             new ymaps.Placemark(
                 [point.lat, point.lng],
@@ -34,35 +34,41 @@ function init() {
         );
     };
 
-    for (let i = 0; i < trashPoints.length; i += 1) {
-        addPlacemark(trashPoints[i], CONSTS);
-    }
+    const fillMap = (trashPoints, map, CONSTS) => {
+        for (let i = 0; i < trashPoints.length; i += 1) {
+            addPlacemark(map, trashPoints[i], CONSTS);
+        }
 
-    const refreshTotalTrashPoints = (map) => {
-        document.getElementById("total-trash-points").textContent = map.geoObjects.getLength();
+        return map;
     };
 
-    refreshTotalTrashPoints(map);
+    const refreshTotalTrashPoints = (map) => {
+        return document.getElementById("total-trash-points").textContent = map.geoObjects.getLength();
+    };
 
-    document.getElementById("searchpoint_button").addEventListener('click', () => {
-        const pointIDSearchInput = document.getElementById('searchpoint_input');
-        const pointID = pointIDSearchInput.value;
-
-        if (!pointID) return undefined;
-
-        for (let i = 0; i < map.geoObjects.getLength(); i += 1) {
-            const placemark = map.geoObjects.get(i);
-            const placemarkID = placemark.properties._data.balloonContentHeader.split('.')[0];
-
-            if (placemarkID === pointID) {
-                placemark.balloon.open();
-
-                pointIDSearchInput.value = '';
-
-                break;
+    const addHandlerToSearchPointButton = (map) => {
+        document.getElementById("searchpoint_button").addEventListener('click', () => {
+            const pointIDSearchInput = document.getElementById('searchpoint_input');
+            const pointID = pointIDSearchInput.value;
+    
+            if (!pointID) return undefined;
+    
+            for (let i = 0; i < map.geoObjects.getLength(); i += 1) {
+                const placemark = map.geoObjects.get(i);
+                const placemarkID = placemark.properties._data.balloonContentHeader.split('.')[0];
+    
+                if (placemarkID === pointID) {
+                    placemark.balloon.open();
+    
+                    pointIDSearchInput.value = '';
+    
+                    break;
+                }
             }
-        }
-    });
+        });
+
+        return map;
+    };
 
     const getSelectedManageMapViewPointsCheckboxes = (trashMapViewFiltersIndexes, trashMapViewManageName) => {
         const selectedTrashMapViewManageCheckboxes = [];
@@ -76,20 +82,29 @@ function init() {
         return selectedTrashMapViewManageCheckboxes;
     };
 
-    document.getElementById("refresh-map-button").addEventListener('click', () => {
-        map.geoObjects.removeAll();
-
-        const selectedTrashCategory = getSelectedManageMapViewPointsCheckboxes(Object.keys(CONSTS.trashCategory), 'trashCategory');
-        const selectedTrashStatuses = getSelectedManageMapViewPointsCheckboxes(Object.keys(CONSTS.trashStatus), 'trashStatus');;
-
-        for (let i = 0; i < trashPoints.length; i += 1) {
-            const point = trashPoints[i];
-
-            if (selectedTrashCategory.includes(point.categ) && selectedTrashStatuses.includes(point.status)) {
-                addPlacemark(point, CONSTS);
+    const addHandlerToRefreshMapButton = (map, getSelectedManageMapViewPointsCheckboxes, CONSTS, trashPoints, addPlacemark, refreshTotalTrashPoints) => {
+        document.getElementById("refresh-map-button").addEventListener('click', () => {
+            map.geoObjects.removeAll();
+    
+            const selectedTrashCategory = getSelectedManageMapViewPointsCheckboxes(Object.keys(CONSTS.trashCategory), 'trashCategory');
+            const selectedTrashStatuses = getSelectedManageMapViewPointsCheckboxes(Object.keys(CONSTS.trashStatus), 'trashStatus');;
+    
+            for (let i = 0; i < trashPoints.length; i += 1) {
+                const point = trashPoints[i];
+    
+                if (selectedTrashCategory.includes(point.categ) && selectedTrashStatuses.includes(point.status)) {
+                    addPlacemark(map, point, CONSTS);
+                }
             }
-        }
+    
+            refreshTotalTrashPoints(map);
+        });
 
-        refreshTotalTrashPoints(map);
-    });
+        return map;
+    };
+
+    fillMap(trashPoints, map, CONSTS);
+    refreshTotalTrashPoints(map);
+    addHandlerToSearchPointButton(map);
+    addHandlerToRefreshMapButton(map, getSelectedManageMapViewPointsCheckboxes, CONSTS, trashPoints, addPlacemark, refreshTotalTrashPoints);
 }
