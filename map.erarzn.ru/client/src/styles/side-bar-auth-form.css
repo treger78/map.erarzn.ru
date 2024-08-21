@@ -1,0 +1,39 @@
+@import "./variables.css";
+
+#e-mail, #password {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#login {
+    background-color: var(--green-primary-color);
+    color: white;
+    padding: 0.9rem;
+    margin: 0.5rem 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+#auth-with-vk-item, #signup-or-reset-password-item {
+    text-align: right;
+}
+
+#auth-with-vk-button {
+    background: none;
+    border: none;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#auth-with-vk-button img {
+    width: 32px;
+    height: 32px;
+}
+
+#signup-or-reset-password-item a {
+    color: var(--green-primary-color);
+}

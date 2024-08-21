@@ -1,0 +1,54 @@
+@import "./variables.css";
+
+#map-area {
+    width: 80%;
+    order: 2;
+}
+
+#map {
+    height: 50rem;
+}
+
+@media (max-width: 1366px) and (min-width: 1152px) {
+    #map-area {
+        width: 75%;
+    }
+}
+
+@media (max-width: 1152px) and (min-width: 960px) {
+    #map-area {
+        width: 70%;
+    }
+}
+
+@media (max-width: 960px) and (min-width: 854px) {
+    #map-area {
+        width: 65%;
+    }
+}
+
+@media (width < 854px) {
+    #map-area {
+        width: 95%;
+    }
+
+    #map {
+        height: 30rem;
+    }
+}
+
+.balloon-footer-detail {
+    color: var(--green-primary-color);
+    text-decoration: underline;
+}
+
+#searchpoint-item {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    padding-right: 1rem;
+}
+
+#searchpoint_button {
+    padding: 0.1rem;
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Экологический Рязанский альянс - Карта свалок мусора</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <link rel="stylesheet" type="text/css" href="../src/styles/index.css">
+</head>
+<body>
+    <header>
+        <div id="header-logo">
+            <a href="http://erarzn.ru">
+                <img src="../src/assets/images/era_logo.gif" alt="Экологический Рязанский Альянс" title="Экологический Рязанский Альянс">
+            </a>
+        </div>
+        <div id="header-text">
+            <h1>Карта свалок мусора в Рязани и Рязанской области</h1>
+            <i>При помощи этой карты мы соберем полную информацию о свалках и очистим родной край от мусора!</i>
+        </div>
+    </header>
+
+    <main>
+        <div id="main-item1">
+            <div id="map-area">
+                <div id="map"></div>
+                <div id="searchpoint-item">
+                    <form action="#" method="GET" id="searchpoint_form" onsubmit="return false;">
+                        <label for="searchpoint_input">Номер свалки</label>
+                        <input type="text" size="5" id="searchpoint_input">
+                        <input type="submit" id="searchpoint_button" name="search" value="Искать" tabindex="0">
+                    </form>
+                </div>
+            </div>
+            <div id="side-bar">
+                <div id="auth-form-item">
+                    <form action="#" method="post" id="auth-form">
+                        <label for="e-mail"><b>E-mail:</b></label>
+                        <input type="text" placeholder="Enter E-mail" name="e-mail" id="e-mail" required>
+
+                        <label for="password"><b>Пароль:</b></label>
+                        <input type="password" placeholder="Enter Password" name="password" id="password" required>
+
+                        <button type="submit" id="login">Войти</button>
+                    </form>
+
+                    <div id="auth-with-vk-item">
+                        <span>Войти через</span>
+                        <button id="auth-with-vk-button"><img src="../src/assets/images/vk-logo.png"></button>
+                    </div>
+
+                    <div id="signup-or-reset-password-item">
+                        <a href="#"><small>Регистрация</small></a>
+                        <a href="#"><small>Забыли пароль?</small></a>
+                    </div>
+                </div>
+                <div id="manage-map-view-points">
+                    <div id="trash-category">
+                        <div>
+                            <b>Виды мусора на карте:</b>
+                        </div>
+                    </div>
+                    <div id="trash-status">
+                        <div>
+                            <b>Статус:</b>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="trashStatus_AllStatus" checked>
+                            <label for="trashStatus_AllStatus">
+                                <span>Все статусы</span>
+                            </label>
+                        </div>
+                    </div>
+                    <button id="refresh-map-button">Обновить карту</button>
+                </div>
+                <div id="add-trash-point">
+                    <button>Добавить савлку</button>
+                </div>
+                <div id="total-trash-points-item">
+                    <div>Отмечено точек:</div>
+                    <div id="total-trash-points"></div>
+                </div>
+            </div>
+        </div>
+        <div id="main-item2">
+            <div id="map-goals">
+                <p>
+                    <b>Цели карты:</b>
+                    <ul>
+                        <li>показать обществу и власти масштаб экологической катастрофы, в которую мы валимся. Если ни чего не делать — мы скоро утонем в этом мусоре;</li>
+                        <li>картографировать все несанкционированные свалки и мусор в городе и области, чтобы потом все это убрать.</li>
+                    </ul>
+                </p>
+                <p>Карту нужно наполнять информацией — это просто, это может сделать любой из вас. Если Вы знаете о таких свалках — вы можете добавить эту информацию на карту мусора. Для этого необходимо <a href="#">зарегистрироваться</a>.</p>
+                <p>Вы можете просто добавить точку на карту, описать, что это за мусор, загрузить фотографии, если они у вас есть. После добавления все точки утверждаются администратором или доверенным волонтером (это такой человек, который съездит и своими глазами проверит свалку). Свалкой мы считаем любую кучу мусора более чем 2х2 метра.</p>
+                <p><a href="#">Регистрация</a> даст вам возможность добавлять точки под своим именем. Если вы зарегистрируетесь и будете добавлять точки, информация о которых будет подтверждаться, то через некоторое время вам присвоится статус доверенного волонтера и вы сможете добавлять точки без дополнительной проверки.</p>
+                <p>Если вы сразу хотите стать доверенным волонтером, пишите нам на <a href="mailto:info@erarzn.ru">info@erarzn.ru</a>.</p>
+            </div>
+            <div id="new-map-points">
+                <table>
+                    <caption>
+                        <h1>Новые точки на карте:</h1>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <td>Дата</td>
+                            <td>№</td>
+                            <td>Название</td>
+                            <td>Статус</td>
+                            <td>Тип мусора</td>
+                            <td>Добавил</td>
+                        </tr>
+                    </thead>
+                    <tbody id="new-map-points-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div>
+            <p>© Рязанский экологический альянс <span id="current-year"></span> г. Все права защищены.</p>
+            <p>При перепечатке информации ссылка на сайт <a href="http://erarzn.ru" id="footer-era-link">«ЭРА»</a> обязательна!</p>
+        </div>
+    </footer>
+
+    <script src="../src/js/index.js" type="module"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ade640f9-e502-4413-92aa-66a27573a574&lang=ru_RU"></script>
+    <script src="../src/js/map_view.js" type="module"></script>
+</body>
+</html>

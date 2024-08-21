@@ -1,0 +1,16 @@
+footer {
+    display: flex;
+    align-items: center;
+    background-image: url("../assets/images/footer-background.gif");
+    color: white;
+    padding: 1.5rem;
+    min-height: 5rem;
+}
+
+#footer-era-link {
+    color: #fff8ac;
+}
+
+footer p {
+    padding: 0.2rem 0;
+}
