@@ -8,17 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../src/styles/index.css">
 </head>
 <body>
-    <header>
-        <div id="header-logo">
-            <a href="http://erarzn.ru">
-                <img src="../src/assets/images/era_logo.gif" alt="Экологический Рязанский Альянс" title="Экологический Рязанский Альянс">
-            </a>
-        </div>
-        <div id="header-text">
-            <h1>Карта свалок мусора в Рязани и Рязанской области</h1>
-            <i>При помощи этой карты мы соберем полную информацию о свалках и очистим родной край от мусора!</i>
-        </div>
-    </header>
+    <header></header>
 
     <main>
         <div id="main-item1">
@@ -55,22 +45,6 @@
                     </div>
                 </div>
                 <div id="manage-map-view-points">
-                    <div id="trash-category">
-                        <div>
-                            <b>Виды мусора на карте:</b>
-                        </div>
-                    </div>
-                    <div id="trash-status">
-                        <div>
-                            <b>Статус:</b>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="trashStatus_AllStatus" checked>
-                            <label for="trashStatus_AllStatus">
-                                <span>Все статусы</span>
-                            </label>
-                        </div>
-                    </div>
                     <button id="refresh-map-button">Обновить карту</button>
                 </div>
                 <div id="add-trash-point">
@@ -117,15 +91,10 @@
         </div>
     </main>
 
-    <footer>
-        <div>
-            <p>© Рязанский экологический альянс <span id="current-year"></span> г. Все права защищены.</p>
-            <p>При перепечатке информации ссылка на сайт <a href="http://erarzn.ru" id="footer-era-link">«ЭРА»</a> обязательна!</p>
-        </div>
-    </footer>
+    <footer></footer>
 
     <script src="../src/js/index.js" type="module"></script>
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ade640f9-e502-4413-92aa-66a27573a574&lang=ru_RU"></script>
-    <script src="../src/js/map_view.js" type="module"></script>
+    <script src="../src/js/mapAPI.js" type="module"></script>
 </body>
 </html>

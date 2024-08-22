@@ -1,7 +1,19 @@
-import trashPoints from './trash_points.js';
+import trashPoints from './trashPoints.js';
 import { CONSTS } from './constants.js';
+import { header } from '../components/header.js';
+import { trashCategory } from '../components/trashCategory.js';
+import { trashStatus } from '../components/trashStatus.js';
+import { footer } from '../components/footer.js';
 
 const trashStatuses = Object.keys(CONSTS.trashStatus);
+
+const insertHTMLElementsToPageByTagName = (tagName, DOMElement) => {
+    return document.getElementsByTagName(tagName)[0].insertAdjacentHTML('beforeend', DOMElement);
+};
+
+const fillManageMapViewPoints = (trashManageMapViewPointsHTMLElements) => {
+    return document.getElementById("manage-map-view-points").insertAdjacentHTML("afterbegin", trashManageMapViewPointsHTMLElements);
+}
 
 const getCurrentYearAndInsertIntoFooter = () => {
     return document.getElementById("current-year").textContent = new Date().getFullYear();
@@ -26,7 +38,7 @@ const fillNewMapPointsTable = (trashPoints, CONSTS) => {
     return newMapPointsTable;
 };
 
-const fillTrashCategoryDOMElement = (CONSTS) => {
+const fillTrashCategory = (CONSTS) => {
     const trashCategory = document.getElementById("trash-category");
     const trashCategories = Object.keys(CONSTS.trashCategory);
 
@@ -44,7 +56,7 @@ const fillTrashCategoryDOMElement = (CONSTS) => {
     return trashCategory;
 };
 
-const fillTrashStatusDOMElement = (CONSTS, trashStatuses) => {
+const fillTrashStatus = (CONSTS, trashStatuses) => {
     const trashStatus = document.getElementById("trash-status");
 
     for (let i = 0; i < trashStatuses.length; i += 1) {
@@ -83,8 +95,12 @@ const addHandlerToTrashStatus_AllStatusCheckbox = (changeSelectionTrashStatuses,
     return trashStatus_AllStatusCheckbox;
 };
 
+insertHTMLElementsToPageByTagName('header', header);
+fillManageMapViewPoints(trashStatus);
+fillManageMapViewPoints(trashCategory);
+insertHTMLElementsToPageByTagName('footer', footer);
 getCurrentYearAndInsertIntoFooter();
 fillNewMapPointsTable(trashPoints, CONSTS);
-fillTrashCategoryDOMElement(CONSTS);
-fillTrashStatusDOMElement(CONSTS, trashStatuses);
+fillTrashCategory(CONSTS);
+fillTrashStatus(CONSTS, trashStatuses);
 addHandlerToTrashStatus_AllStatusCheckbox(changeSelectionTrashStatuses, trashStatuses);

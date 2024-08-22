@@ -1,5 +1,5 @@
 import { CONSTS } from './constants.js';
-import trashPoints from './trash_points.js';
+import trashPoints from './trashPoints.js';
 
 ymaps.ready(init);
 
@@ -70,11 +70,11 @@ function init() {
         return map;
     };
 
-    const getSelectedManageMapViewPointsCheckboxes = (trashMapViewFiltersIndexes, trashMapViewManageName) => {
+    const getSelectedManageMapViewPointsCheckboxes = (trashMapViewFiltersIndexes, trashMapViewFiltersManageName) => {
         const selectedTrashMapViewManageCheckboxes = [];
 
         for (let i = 0; i < trashMapViewFiltersIndexes.length; i += 1) {
-            const trashMapViewManageCheckbox = document.getElementById(`${trashMapViewManageName}_${trashMapViewFiltersIndexes[i]}`);
+            const trashMapViewManageCheckbox = document.getElementById(`${trashMapViewFiltersManageName}_${trashMapViewFiltersIndexes[i]}`);
 
             if (trashMapViewManageCheckbox.checked) selectedTrashMapViewManageCheckboxes.push(trashMapViewFiltersIndexes[i]);
         }
