@@ -1,7 +1,23 @@
+const express = require("express");
+const path = require("path");
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 
+const app = express();
 dotenv.config();
+
+app.use('/', express.static(path.join(__dirname, '..', 'client')));
+
+app.get("*", (_, res) => {
+    //res.sendFile(path.resolve('../client/public/map.erarzn.ru.html'));
+    res.sendFile(path.resolve(__dirname, '..', 'client', 'public', 'map.erarzn.ru.html'));
+});
+
+app.listen(3000, () => {
+    console.log("listening");
+});
+
+/*
 
 const connection = mysql.createConnection({
     host: process.env.DB_HOST,
@@ -15,6 +31,7 @@ connection.query("SELECT * FROM user", (error, res) => {
 
     console.log(res);
 });
+*/
 
 /*
 connection.connect((error) => {
@@ -28,17 +45,5 @@ connection.end((error) => {
     if (error) return console.error("Error: " + error.message);
 
     console.log("Closed");
-});
-*/
-
-/*
-const http = require("http");
-
-const server = http.createServer((req, res) => {
-    res.end("Hello");
-})
-
-server.listen(3000, () => {
-    console.log("Сервер начал прослушивание запросов на порту 3000");
 });
 */
