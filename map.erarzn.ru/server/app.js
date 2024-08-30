@@ -40,13 +40,13 @@ app.post('/signin', (req, res) => {
         res.end();
     }
 
-    connection.query("SELECT * FROM user WHERE login = ?", [email, password], (error, res) => {
+    connection.query("SELECT * FROM user WHERE login=? AND password=?", [email, password], (error, data) => {
         if (error) {
             console.error(error);
             throw error;
         }
 
-        if (res.length > 0) {
+        if (data.length > 0) {
             req.session.loggedin = true;
             req.session.username = email;
 
