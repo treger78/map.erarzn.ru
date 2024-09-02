@@ -6,17 +6,19 @@ const path = require("path");
 
 dotenv.config();
 
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
-});
+const conncectToDB = (DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD) => {
+    return mysql.createConnection({
+        host: DB_HOST,
+        database: DB_DATABASE,
+        user: DB_USER,
+        password: DB_PASSWORD
+    });
+};
 
 const app = express();
 
 app.use(session({
-    secret: 'scrt',
+    secret: process.env.EXPRESS_SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
 }));
@@ -40,6 +42,8 @@ app.post('/signin', (req, res) => {
         res.end();
     }
 
+    const connection = conncectToDB(process.env.DB_HOST, process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD);
+
     connection.query("SELECT * FROM user WHERE login=? AND password=?", [email, password], (error, data) => {
         if (error) {
             console.error(error);
@@ -47,8 +51,7 @@ app.post('/signin', (req, res) => {
         }
 
         if (data.length > 0) {
-            req.session.loggedin = true;
-            req.session.username = email;
+            req.session.isAuthenticated = true;
 
             res.redirect('/');
         } else {
@@ -57,39 +60,12 @@ app.post('/signin', (req, res) => {
 
         res.end();
     });
+
+    connection.end((error) => {
+        if (error) return console.error("Error: " + error.message);
+    });
 });
 
 app.listen(3000, () => {
     console.log("listening");
 });
-
-/*
-
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
-});
-
-connection.query("SELECT * FROM user", (error, res) => {
-    if (error) console.error(error);
-
-    console.log(res);
-});
-*/
-
-/*
-connection.connect((error) => {
-    if (error) return console.error("Error: " + error.message);
-
-    console.log("Connected");
-    console.log()
-});
-
-connection.end((error) => {
-    if (error) return console.error("Error: " + error.message);
-
-    console.log("Closed");
-});
-*/
