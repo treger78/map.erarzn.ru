@@ -17,6 +17,8 @@ const conncectToDB = (DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD) => {
 
 const app = express();
 
+app.set('view engine', 'ejs');
+
 app.use(session({
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: true,
@@ -28,9 +30,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', express.static(path.join(__dirname, '..', 'client')));
 
-app.get('*', (_, res) => {
+app.get('*', (req, res) => {
     //res.sendFile(path.resolve('../client/public/map.erarzn.ru.html'));
-    res.sendFile(path.resolve(__dirname, '..', 'client', 'public', 'map.erarzn.ru.html'));
+    //res.sendFile(path.resolve(__dirname, '..', 'client', 'public', 'index.ejs'));
+    res.render(path.resolve(__dirname, '..', 'client', 'public', 'index.ejs'), {
+        user: req.session.email
+    });
 });
 
 app.post('/signin', (req, res) => {
@@ -52,6 +57,7 @@ app.post('/signin', (req, res) => {
 
         if (data.length > 0) {
             req.session.isAuthenticated = true;
+            req.session.email = email;
 
             res.redirect('/');
         } else {

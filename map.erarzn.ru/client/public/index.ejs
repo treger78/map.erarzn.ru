@@ -24,25 +24,36 @@
             </div>
             <div id="side-bar">
                 <div id="auth-form-item">
-                    <form action="/signin" method="post" id="auth-form">
-                        <label for="e-mail"><b>E-mail:</b></label>
-                        <input type="text" placeholder="Enter E-mail" name="e-mail" id="e-mail" required>
 
-                        <label for="password"><b>Пароль:</b></label>
-                        <input type="password" placeholder="Enter Password" name="password" id="password" required>
+                    <% if (!user) { %>
+                        <form action="/signin" method="post" id="auth-form">
+                            <label for="e-mail"><b>E-mail:</b></label>
+                            <input type="text" placeholder="Enter E-mail" name="e-mail" id="e-mail" required>
+    
+                            <label for="password"><b>Пароль:</b></label>
+                            <input type="password" placeholder="Enter Password" name="password" id="password" required>
+    
+                            <button type="submit" id="login">Войти</button>
+                        </form>
 
-                        <button type="submit" id="login">Войти</button>
-                    </form>
-
-                    <div id="auth-with-vk-item">
-                        <span>Войти через</span>
-                        <button id="auth-with-vk-button"><img src="../src/assets/images/vk-logo.png"></button>
-                    </div>
-
-                    <div id="signup-or-reset-password-item">
-                        <a href="#"><small>Регистрация</small></a>
-                        <a href="#"><small>Забыли пароль?</small></a>
-                    </div>
+                        <div id="auth-with-vk-item">
+                            <span>Войти через</span>
+                            <button id="auth-with-vk-button"><img src="../src/assets/images/vk-logo.png"></button>
+                        </div>
+    
+                        <div id="signup-or-reset-password-item">
+                            <a href="#"><small>Регистрация</small></a>
+                            <a href="#"><small>Забыли пароль?</small></a>
+                        </div>
+                    <% } else { %>
+                        <div>
+                            <div>
+                                <div>Вы вошли как <%= user %></div>
+                                <div id="user-status"></div>
+                            </div>
+                            <div>Выход</div>
+                        </div>
+                    <% } %>
                 </div>
                 <div id="manage-map-view-points">
                     <button id="refresh-map-button">Обновить карту</button>
