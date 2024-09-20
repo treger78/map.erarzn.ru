@@ -1,6 +1,6 @@
 @import "./variables.css";
 
-#e-mail, #password {
+#email, #password {
     width: 100%;
     padding: 0.8rem;
     margin: 0.5rem 0;
