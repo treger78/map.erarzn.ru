@@ -27,16 +27,6 @@ const sequelize = new Sequelize(
     }
 );
 
-/*
-const sequelize = new Sequelize({
-    dialect: 'mysql',
-    database: `${process.env.DB_DATABASE}`,
-    user: `${process.env.DB_USER}`,
-    password: `${process.env.DB_PASSWORD}`,
-    host: `${process.env.DB_HOST}`,
-});
-*/
-
 const User = sequelize.define(
     'user',
     {
@@ -79,17 +69,6 @@ const User = sequelize.define(
         tableName: 'user',
     },
 );
-
-/*
-const conncectToDB = () => {
-    return mysql.createConnection({
-        host: process.env.DB_HOST,
-        database: process.env.DB_DATABASE,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD
-    });
-};
-*/
 
 const app = express();
 
@@ -175,57 +154,9 @@ app.post(
 
             await user.save();
 
-            /*
-            const user = {
-                name: name,
-                email: email,
-                phone: phone || '',
-                password: hashedPassword,
-                about: about || '',
-                role: CONSTS.role.volunteer, //volunteer = 10; it's default value
-                ban: CONSTS.ban.no, //no = not banned = 0, it's default value
-            };
-            */
-        /*
-            const connection = conncectToDB();
-
-            connection.query('SELECT * FROM user WHERE login=?', [user.email], (error, data) => {
-                if (error) {
-                    console.error(error);
-                    throw error;
-                }
-
-                if (data) {
-                    res.send('Пользователь уже существует!');
-                    res.end();
-                }
-            });
-
-            //Регистрируем нового пользователя
-            //login === email
-            connection.query(
-                `
-                    INSERT INTO user (name, login, password, email, phone, role, about, ban) VALUES
-                        ('${user.name}', '${user.email}', '${user.hashedPassword}', '${user.email}', '${user.phone}', ${user.role}, '${user.about}', ${user.ban})
-                `,
-                (error, data) => {
-                    if (error) {
-                        console.error(error);
-                        throw error;
-                    }
-                }
-            );
-        */
             //TODO: !не возвращать user
             res.status(201).json({ success: true,  message: 'Пользователь создан, авторизуйтесь!', user });
             //res.redirect('/');
-            //res.end();
-        
-            /*
-            connection.end((error) => {
-                if (error) return console.error('Error: ' + error.message);
-            });
-            */
         } catch (error) {
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.' });
             console.error(error);
@@ -271,36 +202,8 @@ app.post(
             console.error(error);    
         }
 
-        //const connection = conncectToDB();
-
-        /*
-        connection.query('SELECT * FROM user WHERE login=?', [email], (error, data) => {
-            if (error) {
-                console.error(error);
-                throw error;
-            }
-
-            //TODO
-            if (data.length > 0 && (bcrypt.compare(password, data[0].password) || password === data[0].password)) {            
-                const token = jwt.sign({ email: data.email }, jwtOptions.secretOrKey);
-
-                //req.session.isAuthenticated = true;
-                //req.session.email = email;
-
-                //res.json({ success: true, token });
-                res.redirect('/');
-            } else {
-                res.status(401).json({ success: false, message: 'Неверный email или пароль!' });
-                //res.send('Неверный email или пароль!');
-            }
-
-            res.end();
-        });
-
-        connection.end((error) => {
-            if (error) return console.error('Error: ' + error.message);
-        });
-        */
+        //req.session.isAuthenticated = true;
+        //req.session.email = email;
     }
 );
 
