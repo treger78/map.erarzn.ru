@@ -3,14 +3,15 @@ const mysql = require('mysql2');
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const passport = require('passport');
-const JwtStrategy = require('passport-jwt').Strategy;
+//const passport = require('passport');
+//const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const { CONSTS } = require('./utils/constants');
 const { Sequelize, DataTypes } = require('sequelize');
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
@@ -77,13 +78,15 @@ app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.EXPRESS_SESSION_SECRET
 };
-  
-passport.use(new JwtStrategy(jwtOptions, (jwtPayload, done) => {
+
+/*
+passport.use('jwt', new JwtStrategy(jwtOptions, (jwtPayload, done) => {
     const user = getUser(jwtPayload.email);
 
     if (user) {
@@ -92,20 +95,32 @@ passport.use(new JwtStrategy(jwtOptions, (jwtPayload, done) => {
         done(null, false);
     }
 }));
+*/
 
-app.use(passport.initialize());
+//app.use(passport.initialize());
 
 app.use('/', express.static(path.join(__dirname, '..', 'client')));
 
-app.get('*', (req, res) => {
+//'*'
+app.get('/', (req, res) => {
+    let user = undefined;
+
+    if (req.cookies.user) {
+        user = req.cookies.user.email
+    }
+
     //res.sendFile(path.resolve('../client/public/index.ejs'));
     //res.sendFile(path.resolve(__dirname, '..', 'client', 'public', 'index.ejs'));
     res.render(path.resolve(__dirname, '..', 'client', 'public', 'index.ejs'), {
-        //!!!!
-        //user: req.session.email
-        user: undefined
+        user: user
     });
 });
+
+/*
+app.get('/personal', (req, res) => {
+    return res.json({ success: true, message: 'Welcome to the personal route!' });
+});
+*/
 
 app.post(
     '/signup',
@@ -154,8 +169,7 @@ app.post(
 
             await user.save();
 
-            //TODO: !не возвращать user
-            res.status(201).json({ success: true,  message: 'Пользователь создан, авторизуйтесь!', user });
+            res.status(201).json({ success: true,  message: 'Пользователь создан, авторизуйтесь!' });
             //res.redirect('/');
         } catch (error) {
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.' });
@@ -191,24 +205,34 @@ app.post(
                 {
                     userID: user.id,
                     email: user.login,
+                    role: user.role,
                 },
                 jwtOptions.secretOrKey,
                 { expiresIn: '30d' }
             );
 
-            res.json({ success: true, token, userID: user.id, email: user.login });
+            res.cookie('user', {
+                token: token,
+                userID: user.id,
+                email: user.login,
+                role: user.role,
+            });
+
+            return res.redirect('/');
         } catch (error) {
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.' });
             console.error(error);    
         }
-
-        //req.session.isAuthenticated = true;
-        //req.session.email = email;
     }
 );
 
-sequelize.sync().then(() => {
-    app.listen(3000, () => {
-        console.log('listening');
-    });
-});
+try {
+    sequelize.sync().then(() => {
+        app.listen(3000, () => {
+            console.log('listening');
+        });
+    });   
+} catch (error) {
+    console.error('Server Error', error);
+    process.exit(1);
+}
