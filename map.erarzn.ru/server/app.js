@@ -117,7 +117,7 @@ app.get('/', (req, res) => {
 });
 
 /*
-app.get('/personal', (req, res) => {
+app.get('/personal', passport.authenticate('jwt', { session: false }), (req, res) => {
     return res.json({ success: true, message: 'Welcome to the personal route!' });
 });
 */
