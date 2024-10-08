@@ -1,11 +1,6 @@
 const dotenv = require('dotenv');
-const mysql = require('mysql2');
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
-//const passport = require('passport');
-//const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
@@ -77,37 +72,39 @@ app.set('view engine', 'ejs');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(cookieParser());
-
-const jwtOptions = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.EXPRESS_SESSION_SECRET
-};
-
-/*
-passport.use('jwt', new JwtStrategy(jwtOptions, (jwtPayload, done) => {
-    const user = getUser(jwtPayload.email);
-
-    if (user) {
-        done(null, user);
-    } else {
-        done(null, false);
-    }
-}));
-*/
-
-//app.use(passport.initialize());
 
 app.use('/', express.static(path.join(__dirname, '..', 'client')));
 
+//Middleware для проверки JWT
+const verifyToken = (req, res, next) => {
+    const token = req.cookies.user?.token;
+
+    if (!token) {
+        //TODO
+        return res.status(403).json({ message: 'Требуется авторизация!' });
+    }
+
+    jwt.verify(token, process.env.EXPRESS_SESSION_SECRET, (error, decoded) => {
+        if (error) {
+            if (error.name === 'TokenExpiredError') {
+                //TODO
+                return res.status(401).json({ message: 'Токен истек!' });
+            }
+            
+            //TODO
+            return res.status(401).json({ message: 'Неверный токен авторизации!' });
+        }
+
+        req.user = decoded;
+
+        next();
+    });
+};
+
 //'*'
 app.get('/', (req, res) => {
-    let user = undefined;
-
-    if (req.cookies.user) {
-        user = req.cookies.user.email
-    }
+    const user = req.cookies.user?.email || undefined;
 
     //res.sendFile(path.resolve('../client/public/index.ejs'));
     //res.sendFile(path.resolve(__dirname, '..', 'client', 'public', 'index.ejs'));
@@ -116,11 +113,10 @@ app.get('/', (req, res) => {
     });
 });
 
-/*
-app.get('/personal', passport.authenticate('jwt', { session: false }), (req, res) => {
-    return res.json({ success: true, message: 'Welcome to the personal route!' });
+app.get('/personal', verifyToken, (req, res) => {
+    //TODO
+    return res.json({ success: true, message: 'Welcome to the personal route!', user: req.user });
 });
-*/
 
 app.post(
     '/signup',
@@ -144,13 +140,14 @@ app.post(
             const { name, email, phone, password, repeatedPassword, about } = req.body;
 
             if (password !== repeatedPassword) {
-                res.send('Введенные пароли не совпадают!');
-                res.end();
+                //TODO
+                res.status(400).json({ message: 'Введенные пароли не совпадают!' });
             }
 
             const candidate = await User.findOne({ where: { login: email } });
 
             if (candidate) {
+                //TODO
                 return res.status(400).json({ message: 'Такой пользователь уже существует!' });
             }
 
@@ -169,9 +166,11 @@ app.post(
 
             await user.save();
 
-            res.status(201).json({ success: true,  message: 'Пользователь создан, авторизуйтесь!' });
-            //res.redirect('/');
+            //TODO
+            //res.status(201).json({ success: true,  message: 'Пользователь создан, авторизуйтесь!' });
+            res.redirect('/');
         } catch (error) {
+            //TODO
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.' });
             console.error(error);
         }
@@ -185,6 +184,7 @@ app.post(
             const { email, password } = req.body;
 
             if (!email || !password) {
+                //TODO
                 res.send('Введите email и пароль!');
                 res.end();
             }
@@ -192,12 +192,14 @@ app.post(
             const user = await User.findOne({ where: { login: email } });
 
             if (!user) {
+                //TODO
                 return res.status(400).json({ message: 'Пользователь не найден!' });
             }
 
             const isMatch = await bcrypt.compare(password, user.password) || (password === user.password);
 
             if (!isMatch) {
+                //TODO
                 return res.status(400).json({ message: 'Неверны email или пароль, попробуйте снова!' });
             }
 
@@ -207,27 +209,41 @@ app.post(
                     email: user.login,
                     role: user.role,
                 },
-                jwtOptions.secretOrKey,
+                process.env.EXPRESS_SESSION_SECRET,
                 { expiresIn: '30d' }
             );
 
-            res.cookie('user', {
-                token: token,
-                userID: user.id,
-                email: user.login,
-                role: user.role,
-            });
+            res.cookie(
+                'user',
+                {
+                    token: token,
+                    userID: user.id,
+                    email: user.login,
+                    role: user.role,
+                },
+                {
+                    httpOnly: true,      // Cookie доступен только серверу
+                    secure: true,        // Cookie будет передаваться только через HTTPS
+                    sameSite: 'Strict'   // Cookie передается только в пределах того же сайта
+                }
+            );
 
             return res.redirect('/');
         } catch (error) {
+            console.error(error);
+            //TODO
             res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.' });
-            console.error(error);    
         }
     }
 );
 
+app.get('/signout', (req, res) => {
+    return res.clearCookie('user').redirect('/');
+});
+
 try {
     sequelize.sync().then(() => {
+        //TODO: сделать process.env production & develop для корректной настройки порта
         app.listen(3000, () => {
             console.log('listening');
         });

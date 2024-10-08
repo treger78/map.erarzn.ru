@@ -33,7 +33,7 @@
                             <label for="password"><b>Пароль:</b></label>
                             <input type="password" placeholder="Enter Password" name="password" id="password" required>
     
-                            <button type="submit" id="login">Войти</button>
+                            <button type="submit" id="signin">Войти</button>
                         </form>
 
                         <div id="auth-with-vk-item">
@@ -51,7 +51,9 @@
                                 <div>Вы вошли как <%= user %></div>
                                 <div id="user-status"></div>
                             </div>
-                            <div>Выход</div>
+                            <form action="/signout" id="singout-form">
+                                <button type="submit" id="singout">Выход</button>
+                            </form>
                         </div>
                     <% } %>
                 </div>
