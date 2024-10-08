@@ -1,70 +1,13 @@
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
-const { CONSTS } = require('./utils/constants');
-const { Sequelize, DataTypes } = require('sequelize');
+const CONSTS = require('./utils/constants');
 const cookieParser = require('cookie-parser');
-
-dotenv.config();
-
-const sequelize = new Sequelize(
-    process.env.DB_DATABASE,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-        host: process.env.DB_HOST,
-        dialect: 'mysql',
-        define: {
-            timestamps: false,
-        }
-    }
-);
-
-const User = sequelize.define(
-    'user',
-    {
-        name: {
-            type: DataTypes.STRING(64),
-            allowNull: false,
-        },
-        login: {
-            type: DataTypes.STRING(32),
-            allowNull: false,
-        },
-        password: {
-            type: DataTypes.STRING(64),
-            allowNull: false,
-        },
-        email: {
-            type: DataTypes.STRING(32),
-            allowNull: false,
-        },
-        phone: {
-            type: DataTypes.STRING(32),
-            allowNull: true,
-        },
-        role: {
-            type: DataTypes.TINYINT(2),
-            allowNull: false,
-            defaultValue: 10,
-        },
-        about: {
-            type: DataTypes.TEXT,
-            allowNull: true,
-        },
-        ban: {
-            type: DataTypes.TINYINT(2),
-            allowNull: false,
-            defaultValue: 0,
-        },        
-    },
-    {
-        tableName: 'user',
-    },
-);
+const sequelize = require('./config/database');
+const User = require('./models/User');
 
 const app = express();
 

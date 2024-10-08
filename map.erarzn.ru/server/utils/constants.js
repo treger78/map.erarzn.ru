@@ -1,4 +1,4 @@
-exports.CONSTS = {
+const CONSTS = {
     role: {
         volunteer: 10,
         admin: 50,
@@ -9,3 +9,5 @@ exports.CONSTS = {
         yes: 1
     }
 }
+
+module.exports = CONSTS;
