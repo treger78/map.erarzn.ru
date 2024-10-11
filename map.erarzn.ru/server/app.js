@@ -127,9 +127,7 @@ app.post(
             const { email, password } = req.body;
 
             if (!email || !password) {
-                //TODO
-                res.send('Введите email и пароль!');
-                res.end();
+                return res.status(400).json({ message: 'Введите email и пароль!' });
             }
     
             const user = await User.findOne({ where: { login: email } });
@@ -171,7 +169,9 @@ app.post(
                 }
             );
 
-            return res.redirect('/');
+            //TODO:!!!
+            return res.json({ token, userID: user.id, email: user.login, role: user.role });
+            //return res.redirect('/');
         } catch (error) {
             console.error(error);
             //TODO
