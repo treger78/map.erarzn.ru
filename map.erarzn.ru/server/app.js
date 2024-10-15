@@ -127,6 +127,7 @@ app.post(
             const { email, password } = req.body;
 
             if (!email || !password) {
+                //TODO
                 return res.status(400).json({ message: 'Введите email и пароль!' });
             }
     
@@ -163,15 +164,19 @@ app.post(
                     role: user.role,
                 },
                 {
-                    httpOnly: true,      // Cookie доступен только серверу
+                    //httpOnly: true,      // Cookie доступен только серверу
                     secure: true,        // Cookie будет передаваться только через HTTPS
                     sameSite: 'Strict'   // Cookie передается только в пределах того же сайта
                 }
             );
 
-            //TODO:!!!
-            return res.json({ token, userID: user.id, email: user.login, role: user.role });
-            //return res.redirect('/');
+            return res.json({
+                token,
+                userID: user.id,
+                email: user.login,
+                role: user.role,
+                message: `Добро пожаловать, ${user.login}`
+            });
         } catch (error) {
             console.error(error);
             //TODO
@@ -186,8 +191,8 @@ app.get('/signout', (req, res) => {
 
 try {
     sequelize.sync().then(() => {
-        //TODO: сделать process.env production & develop для корректной настройки порта
-        app.listen(3000, () => {
+        //80 - HTTP; //443 - HTTPS //https://nodejsdev.ru/guides/webdraftt/https/
+        app.listen(80, () => {
             console.log('listening');
         });
     });   
