@@ -83,5 +83,26 @@ const personalRoute = () => {
 };
 */
 
+/*
+const trashPointsRoute = () => {
+    try {
+        
+    } catch (error) {
+        Toastify({
+            text: 'Произошла ошибка! Попробуйте снова.',
+            duration: 3000,
+            gravity: 'top',
+            position: 'center',
+            style: {
+                background: data.messageColor || '#ff0000bd' //red
+            },
+        }).showToast();
+
+        console.error(error);
+    }
+};
+*/
+
 signInRoute();
 //personalRoute();
+//trashPointsRoute();

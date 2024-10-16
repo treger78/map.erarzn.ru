@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const CONSTS = require('./utils/constants');
 const sequelize = require('./config/database');
 const User = require('./models/User');
+const TrashPoint = require('./models/TrashPoint');
 const verifyToken = require('./middleware/auth.middleware');
 
 const app = express();
@@ -36,6 +37,7 @@ app.get('/personal', verifyToken, (req, res) => {
     return res.json({ success: true, message: 'Welcome to the personal route!', messageColor: CONSTS.colors.red, user: req.user });
 });
 
+//signup
 app.post(
     '/signup',
     [
@@ -94,6 +96,7 @@ app.post(
     }
 );
 
+//signin
 app.post(
     '/signin',
     async (req, res) => {
@@ -160,6 +163,25 @@ app.post(
 app.get('/signout', (req, res) => {
     //TODO
     return res.clearCookie('user').redirect('/');
+});
+
+//TODO: не делать новый роут, реализовать в дефолтном (/)
+app.get('/trash-points', async (req, res) => {
+    try {
+        //TODO: параметры поиска?
+        //+ на клиенте сделать как раз при клике на кнопку "Обновить" запрос на роут trash-points, данные для запроса будут подтягиваться с клиента
+        const trashPoints = await TrashPoint.findAll();
+
+        return res.json({
+            trashPoints: trashPoints,
+            message: 'Данные по отмеченным на карте свалкам успешно обновлены!',
+            messageColor: CONSTS.colors.green
+        });
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.', messageColor: CONSTS.colors.red });   
+    }
 });
 
 try {
