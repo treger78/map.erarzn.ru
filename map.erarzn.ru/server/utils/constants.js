@@ -7,6 +7,11 @@ const CONSTS = {
     ban: {
         no: 0,
         yes: 1
+    },
+    colors: {
+        green: '#00a542',
+        red: '#ff0000bd',
+        yellow: '#ffa500d6',
     }
 }
 

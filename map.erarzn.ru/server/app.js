@@ -4,10 +4,11 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
-const CONSTS = require('./utils/constants');
 const cookieParser = require('cookie-parser');
+const CONSTS = require('./utils/constants');
 const sequelize = require('./config/database');
 const User = require('./models/User');
+const verifyToken = require('./middleware/auth.middleware');
 
 const app = express();
 
@@ -18,32 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/', express.static(path.join(__dirname, '..', 'client')));
-
-//Middleware для проверки JWT
-const verifyToken = (req, res, next) => {
-    const token = req.cookies.user?.token;
-
-    if (!token) {
-        //TODO
-        return res.status(403).json({ message: 'Требуется авторизация!' });
-    }
-
-    jwt.verify(token, process.env.EXPRESS_SESSION_SECRET, (error, decoded) => {
-        if (error) {
-            if (error.name === 'TokenExpiredError') {
-                //TODO
-                return res.status(401).json({ message: 'Токен истек!' });
-            }
-            
-            //TODO
-            return res.status(401).json({ message: 'Неверный токен авторизации!' });
-        }
-
-        req.user = decoded;
-
-        next();
-    });
-};
 
 //'*'
 app.get('/', (req, res) => {
@@ -58,7 +33,7 @@ app.get('/', (req, res) => {
 
 app.get('/personal', verifyToken, (req, res) => {
     //TODO
-    return res.json({ success: true, message: 'Welcome to the personal route!', user: req.user });
+    return res.json({ success: true, message: 'Welcome to the personal route!', messageColor: CONSTS.colors.red, user: req.user });
 });
 
 app.post(
@@ -77,21 +52,20 @@ app.post(
                 return res.status(400).json({
                   errors: errors.array(),
                   message: 'Некорректные данный при регистрации!',
+                  messageColor: CONSTS.colors.red
                 });
             }
 
             const { name, email, phone, password, repeatedPassword, about } = req.body;
 
             if (password !== repeatedPassword) {
-                //TODO
-                res.status(400).json({ message: 'Введенные пароли не совпадают!' });
+                return res.status(400).json({ message: 'Введенные пароли не совпадают!', messageColor: CONSTS.colors.red });
             }
 
             const candidate = await User.findOne({ where: { login: email } });
 
             if (candidate) {
-                //TODO
-                return res.status(400).json({ message: 'Такой пользователь уже существует!' });
+                return res.status(400).json({ message: 'Такой пользователь уже существует!', messageColor: CONSTS.colors.yellow });
             }
 
             const hashedPassword = await bcrypt.hash(password, 10); //10 - saltLength
@@ -110,12 +84,12 @@ app.post(
             await user.save();
 
             //TODO
-            //res.status(201).json({ success: true,  message: 'Пользователь создан, авторизуйтесь!' });
-            res.redirect('/');
+            //res.status(201).json({ success: true,  message: 'Пользователь создан, авторизуйтесь!', messageColor: CONSTS.colors.green });
+            return res.redirect('/');
         } catch (error) {
-            //TODO
-            res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.' });
             console.error(error);
+
+            return res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.', messageColor: CONSTS.colors.red });
         }
     }
 );
@@ -127,22 +101,19 @@ app.post(
             const { email, password } = req.body;
 
             if (!email || !password) {
-                //TODO
-                return res.status(400).json({ message: 'Введите email и пароль!' });
+                return res.status(400).json({ message: 'Введите email и пароль!', messageColor: CONSTS.colors.red });
             }
     
             const user = await User.findOne({ where: { login: email } });
 
             if (!user) {
-                //TODO
-                return res.status(400).json({ message: 'Пользователь не найден!' });
+                return res.status(400).json({ message: 'Пользователь не найден!', messageColor: CONSTS.colors.red });
             }
 
             const isMatch = await bcrypt.compare(password, user.password) || (password === user.password);
 
             if (!isMatch) {
-                //TODO
-                return res.status(400).json({ message: 'Неверны email или пароль, попробуйте снова!' });
+                return res.status(400).json({ message: 'Неверны email или пароль, попробуйте снова!', messageColor: CONSTS.colors.red });
             }
 
             const token = jwt.sign(
@@ -175,17 +146,19 @@ app.post(
                 userID: user.id,
                 email: user.login,
                 role: user.role,
-                message: `Добро пожаловать, ${user.login}`
+                message: `Добро пожаловать, ${user.login}`,
+                messageColor: CONSTS.colors.green
             });
         } catch (error) {
             console.error(error);
-            //TODO
-            res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.' });
+
+            return res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова.', messageColor: CONSTS.colors.red });
         }
     }
 );
 
 app.get('/signout', (req, res) => {
+    //TODO
     return res.clearCookie('user').redirect('/');
 });
 
