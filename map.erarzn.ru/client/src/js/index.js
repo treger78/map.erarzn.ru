@@ -1,9 +1,9 @@
-import trashPoints from './trashPoints.js';
 import { CONSTS } from './constants.js';
 import { header } from '../components/header.js';
 import { trashCategory } from '../components/trashCategory.js';
 import { trashStatus } from '../components/trashStatus.js';
 import { footer } from '../components/footer.js';
+import { getTrashPoints } from './api/getTrashPoints.js';
 
 const trashStatuses = Object.keys(CONSTS.trashStatus);
 
@@ -19,9 +19,13 @@ const getCurrentYearAndInsertIntoFooter = () => {
     return document.getElementById("current-year").textContent = new Date().getFullYear();
 };
 
-const fillNewMapPointsTable = (trashPoints, CONSTS) => {
+const fillNewMapPointsTable = async (getTrashPoints, CONSTS) => {
     const newMapPointsTable = document.getElementById("new-map-points-table-body");
 
+    const data = await getTrashPoints();
+    const trashPoints = data.trashPoints;
+
+    //Выбираем 10 последних добавленных свалок для отображения в таблице
     for (let i = trashPoints.length - 1; i > trashPoints.length - 11; i -= 1) {
         const trashPoint = trashPoints[i];
     
@@ -100,7 +104,7 @@ fillManageMapViewPoints(trashStatus);
 fillManageMapViewPoints(trashCategory);
 insertHTMLElementsToPageByTagName('footer', footer);
 getCurrentYearAndInsertIntoFooter();
-fillNewMapPointsTable(trashPoints, CONSTS);
+fillNewMapPointsTable(getTrashPoints, CONSTS);
 fillTrashCategory(CONSTS);
 fillTrashStatus(CONSTS, trashStatuses);
 addHandlerToTrashStatus_AllStatusCheckbox(changeSelectionTrashStatuses, trashStatuses);

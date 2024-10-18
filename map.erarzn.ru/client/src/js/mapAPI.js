@@ -1,19 +1,9 @@
 import { CONSTS } from './constants.js';
+import { getTrashPoints } from './api/getTrashPoints.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     ymaps.ready(init);
 });
-
-const getTrashPoints = async () => {
-    try {
-        const response = await fetch('/trash-points');
-        const data = await response.json();
-
-        return data;
-    } catch (error) {
-        console.error(error);
-    }
-};
 
 function init() {
     const map = new ymaps.Map("map", {
