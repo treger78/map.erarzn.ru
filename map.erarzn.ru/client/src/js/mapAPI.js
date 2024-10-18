@@ -1,5 +1,4 @@
 import { CONSTS } from './constants.js';
-import trashPoints from './trashPoints.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     ymaps.ready(init);
@@ -51,8 +50,8 @@ function init() {
         return document.getElementById("total-trash-points").textContent = map.geoObjects.getLength();
     };
 
-    const fillMap = async (getTrashPointsFunction, map, CONSTS) => {
-        const data = await getTrashPointsFunction();
+    const fillMap = async (getTrashPoints, map, CONSTS, refreshTotalTrashPoints) => {
+        const data = await getTrashPoints();
         const trashPoints = data.trashPoints;
 
         for (let i = 0; i < trashPoints.length; i += 1) {
@@ -94,19 +93,22 @@ function init() {
         for (let i = 0; i < trashMapViewFiltersIndexes.length; i += 1) {
             const trashMapViewManageCheckbox = document.getElementById(`${trashMapViewFiltersManageName}_${trashMapViewFiltersIndexes[i]}`);
 
-            if (trashMapViewManageCheckbox.checked) selectedTrashMapViewManageCheckboxes.push(trashMapViewFiltersIndexes[i]);
+            if (trashMapViewManageCheckbox.checked) selectedTrashMapViewManageCheckboxes.push(Number(trashMapViewFiltersIndexes[i]));
         }
 
         return selectedTrashMapViewManageCheckboxes;
     };
 
-    const addHandlerToRefreshMapButton = (map, getSelectedManageMapViewPointsCheckboxes, CONSTS, trashPoints, addPlacemark, refreshTotalTrashPoints) => {
-        document.getElementById("refresh-map-button").addEventListener('click', () => {
+    const addHandlerToRefreshMapButton = (map, getSelectedManageMapViewPointsCheckboxes, CONSTS, getTrashPoints, addPlacemark, refreshTotalTrashPoints) => {
+        document.getElementById("refresh-map-button").addEventListener('click', async () => {
             map.geoObjects.removeAll();
     
             const selectedTrashCategory = getSelectedManageMapViewPointsCheckboxes(Object.keys(CONSTS.trashCategory), 'trashCategory');
             const selectedTrashStatuses = getSelectedManageMapViewPointsCheckboxes(Object.keys(CONSTS.trashStatus), 'trashStatus');;
-    
+            
+            const data = await getTrashPoints();
+            const trashPoints = data.trashPoints;
+
             for (let i = 0; i < trashPoints.length; i += 1) {
                 const point = trashPoints[i];
     
@@ -121,7 +123,7 @@ function init() {
         return map;
     };
 
-    fillMap(getTrashPoints, map, CONSTS);
+    fillMap(getTrashPoints, map, CONSTS, refreshTotalTrashPoints);
     addHandlerToSearchPointButton(map);
-    addHandlerToRefreshMapButton(map, getSelectedManageMapViewPointsCheckboxes, CONSTS, trashPoints, addPlacemark, refreshTotalTrashPoints);
+    addHandlerToRefreshMapButton(map, getSelectedManageMapViewPointsCheckboxes, CONSTS, getTrashPoints, addPlacemark, refreshTotalTrashPoints);
 }
