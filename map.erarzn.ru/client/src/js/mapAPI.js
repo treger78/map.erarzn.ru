@@ -1,7 +1,20 @@
 import { CONSTS } from './constants.js';
 import trashPoints from './trashPoints.js';
 
-ymaps.ready(init);
+document.addEventListener('DOMContentLoaded', () => {
+    ymaps.ready(init);
+});
+
+const getTrashPoints = async () => {
+    try {
+        const response = await fetch('/trash-points');
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 function init() {
     const map = new ymaps.Map("map", {
@@ -34,16 +47,21 @@ function init() {
         );
     };
 
-    const fillMap = (trashPoints, map, CONSTS) => {
+    const refreshTotalTrashPoints = (map) => {
+        return document.getElementById("total-trash-points").textContent = map.geoObjects.getLength();
+    };
+
+    const fillMap = async (getTrashPointsFunction, map, CONSTS) => {
+        const data = await getTrashPointsFunction();
+        const trashPoints = data.trashPoints;
+
         for (let i = 0; i < trashPoints.length; i += 1) {
             addPlacemark(map, trashPoints[i], CONSTS);
         }
 
-        return map;
-    };
+        refreshTotalTrashPoints(map);
 
-    const refreshTotalTrashPoints = (map) => {
-        return document.getElementById("total-trash-points").textContent = map.geoObjects.getLength();
+        return map;
     };
 
     const addHandlerToSearchPointButton = (map) => {
@@ -103,8 +121,7 @@ function init() {
         return map;
     };
 
-    fillMap(trashPoints, map, CONSTS);
-    refreshTotalTrashPoints(map);
+    fillMap(getTrashPoints, map, CONSTS);
     addHandlerToSearchPointButton(map);
     addHandlerToRefreshMapButton(map, getSelectedManageMapViewPointsCheckboxes, CONSTS, trashPoints, addPlacemark, refreshTotalTrashPoints);
 }

@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 
     //res.sendFile(path.resolve('../client/public/index.ejs'));
     //res.sendFile(path.resolve(__dirname, '..', 'client', 'public', 'index.ejs'));
-    res.render(path.resolve(__dirname, '..', 'client', 'public', 'index.ejs'), {
+    return res.render(path.resolve(__dirname, '..', 'client', 'public', 'index.ejs'), {
         user: user
     });
 });
@@ -165,16 +165,14 @@ app.get('/signout', (req, res) => {
     return res.clearCookie('user').redirect('/');
 });
 
-//TODO: не делать новый роут, реализовать в дефолтном (/)
 app.get('/trash-points', async (req, res) => {
     try {
         //TODO: параметры поиска?
-        //+ на клиенте сделать как раз при клике на кнопку "Обновить" запрос на роут trash-points, данные для запроса будут подтягиваться с клиента
         const trashPoints = await TrashPoint.findAll();
 
         return res.json({
             trashPoints: trashPoints,
-            message: 'Данные по отмеченным на карте свалкам успешно обновлены!',
+            message: 'Данные карты успешно обновлены!',
             messageColor: CONSTS.colors.green
         });
     } catch (error) {

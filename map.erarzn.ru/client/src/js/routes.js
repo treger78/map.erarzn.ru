@@ -1,3 +1,5 @@
+import { showToastifyErrorMessage } from './utils/showToastifyErrorMessage.js';
+
 const signInRoute = () => {
     const authForm = document.getElementById('auth-form');
 
@@ -47,15 +49,7 @@ const signInRoute = () => {
                     }, 1500);
                 }
             } catch (error) {
-                Toastify({
-                    text: 'Произошла ошибка! Попробуйте снова.',
-                    duration: 3000,
-                    gravity: 'top',
-                    position: 'center',
-                    style: {
-                        background: data.messageColor || '#ff0000bd' //red
-                    },
-                }).showToast();
+                showToastifyErrorMessage();
 
                 console.error(error);
             }
@@ -68,35 +62,7 @@ const personalRoute = () => {
     try {
         
     } catch (error) {
-        Toastify({
-            text: 'Произошла ошибка! Попробуйте снова.',
-            duration: 3000,
-            gravity: 'top',
-            position: 'center',
-            style: {
-                background: data.messageColor || '#ff0000bd' //red
-            },
-        }).showToast();
-
-        console.error(error);
-    }
-};
-*/
-
-/*
-const trashPointsRoute = () => {
-    try {
-        
-    } catch (error) {
-        Toastify({
-            text: 'Произошла ошибка! Попробуйте снова.',
-            duration: 3000,
-            gravity: 'top',
-            position: 'center',
-            style: {
-                background: data.messageColor || '#ff0000bd' //red
-            },
-        }).showToast();
+        showToastifyErrorMessage();
 
         console.error(error);
     }
@@ -105,4 +71,3 @@ const trashPointsRoute = () => {
 
 signInRoute();
 //personalRoute();
-//trashPointsRoute();
