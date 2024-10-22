@@ -21,7 +21,6 @@ app.use(cookieParser());
 
 app.use('/', express.static(path.join(__dirname, '..', 'client')));
 
-//'*'
 app.get('/', (req, res) => {
     const user = req.cookies.user?.email || undefined;
 
@@ -34,7 +33,7 @@ app.get('/', (req, res) => {
 
 app.get('/personal', verifyToken, (req, res) => {
     //TODO
-    return res.json({ success: true, message: 'Welcome to the personal route!', messageColor: CONSTS.colors.red, user: req.user });
+    return res.json({ message: 'Welcome to the personal route!', messageColor: CONSTS.colors.red, user: req.user });
 });
 
 //signup
@@ -85,8 +84,8 @@ app.post(
             await user.save();
 
             //TODO
-            //res.status(201).json({ success: true,  message: 'Пользователь создан, авторизуйтесь!', messageColor: CONSTS.colors.green });
-            return res.redirect('/');
+            return res.status(201).json({ message: 'Пользователь создан, авторизуйтесь!', messageColor: CONSTS.colors.green });
+            //return res.redirect('/');
         } catch (error) {
             console.error(error);
 
@@ -160,8 +159,9 @@ app.post(
 );
 
 app.get('/signout', (req, res) => {
-    //TODO
-    return res.clearCookie('user').redirect('/');
+    res.clearCookie('user');
+    
+    return res.status(200).json({ message: 'Выход выполнен успешно!', messageColor: CONSTS.colors.green });
 });
 
 app.get('/trash-points', async (req, res) => {

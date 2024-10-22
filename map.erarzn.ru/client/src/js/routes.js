@@ -57,6 +57,44 @@ const signInRoute = () => {
     }
 };
 
+const signOutRoute = () => {
+    const signOutButton = document.getElementById('singout');
+
+    if (signOutButton) {
+        signOutButton.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            try {
+                const response = await fetch('/signout', {
+                    method: 'GET',
+                });
+
+                const data = await response.json();
+
+                if (data) {
+                    Toastify({
+                        text: data.message,
+                        duration: 3000,
+                        gravity: 'top',
+                        position: 'center',
+                        style: {
+                            background: data.messageColor
+                        },
+                    }).showToast();
+
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                }
+            } catch (error) {
+                showToastifyErrorMessage();
+
+                console.error(error);
+            }
+        });
+    }
+};
+
 /*
 const personalRoute = () => {
     try {
@@ -70,4 +108,5 @@ const personalRoute = () => {
 */
 
 signInRoute();
+signOutRoute();
 //personalRoute();
