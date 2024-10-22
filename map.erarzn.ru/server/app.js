@@ -64,7 +64,7 @@ app.post(
                 return res.status(400).json({ message: 'Введенные пароли не совпадают!', messageColor: CONSTS.colors.red });
             }
 
-            const candidate = await User.findOne({ where: { login: email } });
+            const candidate = await User.findOne({ where: { email: email } });
 
             if (candidate) {
                 return res.status(400).json({ message: 'Такой пользователь уже существует!', messageColor: CONSTS.colors.yellow });
@@ -74,11 +74,10 @@ app.post(
 
             const user = new User({
                 name: name,
-                login: email,
                 email: email,
-                phone: phone || '',
+                phone: phone || null,
                 password: hashedPassword,
-                about: about || '',
+                about: about || null,
                 role: CONSTS.role.volunteer, //volunteer = 10; it's default value
                 ban: CONSTS.ban.no, //no = not banned = 0, it's default value
             });
@@ -107,7 +106,7 @@ app.post(
                 return res.status(400).json({ message: 'Введите email и пароль!', messageColor: CONSTS.colors.red });
             }
     
-            const user = await User.findOne({ where: { login: email } });
+            const user = await User.findOne({ where: { email: email } });
 
             if (!user) {
                 return res.status(400).json({ message: 'Пользователь не найден!', messageColor: CONSTS.colors.red });
@@ -122,7 +121,7 @@ app.post(
             const token = jwt.sign(
                 {
                     userID: user.id,
-                    email: user.login,
+                    email: user.email,
                     role: user.role,
                 },
                 process.env.EXPRESS_SESSION_SECRET,
@@ -134,7 +133,7 @@ app.post(
                 {
                     token: token,
                     userID: user.id,
-                    email: user.login,
+                    email: user.email,
                     role: user.role,
                 },
                 {
@@ -147,9 +146,9 @@ app.post(
             return res.json({
                 token,
                 userID: user.id,
-                email: user.login,
+                email: user.email,
                 role: user.role,
-                message: `Добро пожаловать, ${user.login}`,
+                message: `Добро пожаловать, ${user.email}`,
                 messageColor: CONSTS.colors.green
             });
         } catch (error) {

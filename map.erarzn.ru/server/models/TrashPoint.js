@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const TrashPoint = sequelize.define(
-    'trashPoint',
+    'TrashPoint',
     {
         user_id: {
             type: DataTypes.INTEGER(11),
@@ -58,7 +58,7 @@ const TrashPoint = sequelize.define(
         },
     },
     {
-        tableName: 'map_point',
+        tableName: 'trash_points',
     },
 );
 
