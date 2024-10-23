@@ -21,7 +21,7 @@ function init() {
                     balloonContentHeader: `${point.id}. ${point.name}`,
                     balloonContentBody: `
                     <div><small>${CONSTS.trashCategory[point.categ].name}</small></div>
-                    <div><small>Добавил точку: волонтёр</small></div>
+                    <div><small>Добавил точку: ${point.User?.name || 'волонтёр'}</small></div>
                     <div><small>Статус точки: <span style="background-color: ${CONSTS.trashStatus[point.status].colorHEX}">${CONSTS.trashStatus[point.status].name}</span></small></div>
                     `,
                     balloonContentFooter: `
