@@ -30,7 +30,7 @@ const fillNewMapPointsTable = async (getTrashPoints, CONSTS) => {
         const trashPoint = trashPoints[i];
     
         newMapPointsTable.insertAdjacentHTML('beforeend', `
-            <td><small>${new Date(trashPoint.date * 1000).toLocaleString()}</small></td>
+            <td><small>${new Date(trashPoint.date * 1000).toLocaleString().slice(0, -3)}</small></td>
             <td>${trashPoint.id}</td>
             <td class="trash-point-name">${trashPoint.name}</td>
             <td><span style="background-color: ${CONSTS.trashStatus[trashPoint.status].colorHEX}">${CONSTS.trashStatus[trashPoint.status].name}</span></td>
