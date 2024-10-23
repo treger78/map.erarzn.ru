@@ -35,7 +35,7 @@ const fillNewMapPointsTable = async (getTrashPoints, CONSTS) => {
             <td class="trash-point-name">${trashPoint.name}</td>
             <td><span style="background-color: ${CONSTS.trashStatus[trashPoint.status].colorHEX}">${CONSTS.trashStatus[trashPoint.status].name}</span></td>
             <td>${CONSTS.trashCategory[trashPoint.categ].name}</td>
-            <td class="volunteer-name">${trashPoint.user_id}</td>
+            <td class="volunteer-name">${trashPoint.User.name || 'Волонтер'}</td>
         `);
     }
 

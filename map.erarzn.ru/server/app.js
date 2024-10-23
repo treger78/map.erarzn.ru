@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
@@ -10,6 +10,7 @@ const sequelize = require('./config/database');
 const User = require('./models/User');
 const TrashPoint = require('./models/TrashPoint');
 const verifyToken = require('./middleware/auth.middleware');
+require('./models/associations');
 
 const app = express();
 
@@ -167,7 +168,12 @@ app.get('/signout', (req, res) => {
 app.get('/trash-points', async (req, res) => {
     try {
         //TODO: параметры поиска?
-        const trashPoints = await TrashPoint.findAll();
+        const trashPoints = await TrashPoint.findAll({
+            include: [{
+                model: User,
+                attributes: ['name'],
+            }]
+        });
 
         return res.json({
             trashPoints: trashPoints,

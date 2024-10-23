@@ -7,6 +7,10 @@ const TrashPoint = sequelize.define(
         user_id: {
             type: DataTypes.INTEGER(11),
             allowNull: false,
+            references: {
+                model: 'users',
+                key: 'id'
+            }
         },
         date: {
             type: DataTypes.INTEGER(11),
