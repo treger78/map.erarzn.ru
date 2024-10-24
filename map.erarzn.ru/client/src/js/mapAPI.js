@@ -1,11 +1,7 @@
 import { CONSTS } from './constants.js';
 import { getTrashPoints } from './api/getTrashPoints.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-    ymaps.ready(init);
-});
-
-function init() {
+function init(trashPoints) {
     const map = new ymaps.Map("map", {
         center: [54.61, 39.72],
         zoom: 9,
@@ -40,10 +36,7 @@ function init() {
         return document.getElementById("total-trash-points").textContent = map.geoObjects.getLength();
     };
 
-    const fillMap = async (getTrashPoints, map, CONSTS, refreshTotalTrashPoints) => {
-        const data = await getTrashPoints();
-        const trashPoints = data.trashPoints;
-
+    const fillMap = (trashPoints, map, CONSTS, refreshTotalTrashPoints) => {
         for (let i = 0; i < trashPoints.length; i += 1) {
             addPlacemark(map, trashPoints[i], CONSTS);
         }
@@ -113,7 +106,39 @@ function init() {
         return map;
     };
 
-    fillMap(getTrashPoints, map, CONSTS, refreshTotalTrashPoints);
+    fillMap(trashPoints, map, CONSTS, refreshTotalTrashPoints);
     addHandlerToSearchPointButton(map);
     addHandlerToRefreshMapButton(map, getSelectedManageMapViewPointsCheckboxes, CONSTS, getTrashPoints, addPlacemark, refreshTotalTrashPoints);
 }
+
+const fillNewMapPointsTable = (trashPoints, CONSTS) => {
+    const newMapPointsTable = document.getElementById("new-map-points-table-body");
+
+    //Выбираем 10 последних добавленных свалок для отображения в таблице
+    for (let i = trashPoints.length - 1; i > trashPoints.length - 11; i -= 1) {
+        const trashPoint = trashPoints[i];
+    
+        newMapPointsTable.insertAdjacentHTML('beforeend', `
+            <td><small>${new Date(trashPoint.date * 1000).toLocaleString().slice(0, -3)}</small></td>
+            <td>${trashPoint.id}</td>
+            <td class="trash-point-name">${trashPoint.name}</td>
+            <td><span style="background-color: ${CONSTS.trashStatus[trashPoint.status].colorHEX}">${CONSTS.trashStatus[trashPoint.status].name}</span></td>
+            <td>${CONSTS.trashCategory[trashPoint.categ].name}</td>
+            <td class="volunteer-name">${trashPoint.User.name || 'Волонтер'}</td>
+        `);
+    }
+
+    return newMapPointsTable;
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const data = await getTrashPoints();
+
+        ymaps.ready(() => init(data.trashPoints));
+
+        fillNewMapPointsTable(data.trashPoints, CONSTS);
+    } catch (error) {
+        console.error(error);
+    }
+});

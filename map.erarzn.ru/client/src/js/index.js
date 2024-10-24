@@ -3,7 +3,6 @@ import { header } from '../components/header.js';
 import { trashCategory } from '../components/trashCategory.js';
 import { trashStatus } from '../components/trashStatus.js';
 import { footer } from '../components/footer.js';
-import { getTrashPoints } from './api/getTrashPoints.js';
 
 const trashStatuses = Object.keys(CONSTS.trashStatus);
 
@@ -17,29 +16,6 @@ const fillManageMapViewPoints = (trashManageMapViewPointsHTMLElements) => {
 
 const getCurrentYearAndInsertIntoFooter = () => {
     return document.getElementById("current-year").textContent = new Date().getFullYear();
-};
-
-const fillNewMapPointsTable = async (getTrashPoints, CONSTS) => {
-    const newMapPointsTable = document.getElementById("new-map-points-table-body");
-
-    const data = await getTrashPoints();
-    const trashPoints = data.trashPoints;
-
-    //Выбираем 10 последних добавленных свалок для отображения в таблице
-    for (let i = trashPoints.length - 1; i > trashPoints.length - 11; i -= 1) {
-        const trashPoint = trashPoints[i];
-    
-        newMapPointsTable.insertAdjacentHTML('beforeend', `
-            <td><small>${new Date(trashPoint.date * 1000).toLocaleString().slice(0, -3)}</small></td>
-            <td>${trashPoint.id}</td>
-            <td class="trash-point-name">${trashPoint.name}</td>
-            <td><span style="background-color: ${CONSTS.trashStatus[trashPoint.status].colorHEX}">${CONSTS.trashStatus[trashPoint.status].name}</span></td>
-            <td>${CONSTS.trashCategory[trashPoint.categ].name}</td>
-            <td class="volunteer-name">${trashPoint.User.name || 'Волонтер'}</td>
-        `);
-    }
-
-    return newMapPointsTable;
 };
 
 const fillTrashCategory = (CONSTS) => {
@@ -104,7 +80,6 @@ fillManageMapViewPoints(trashStatus);
 fillManageMapViewPoints(trashCategory);
 insertHTMLElementsToPageByTagName('footer', footer);
 getCurrentYearAndInsertIntoFooter();
-fillNewMapPointsTable(getTrashPoints, CONSTS);
 fillTrashCategory(CONSTS);
 fillTrashStatus(CONSTS, trashStatuses);
 addHandlerToTrashStatus_AllStatusCheckbox(changeSelectionTrashStatuses, trashStatuses);
