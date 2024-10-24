@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const { check, validationResult } = require('express-validator');
 const cookieParser = require('cookie-parser');
 const CONSTS = require('./utils/constants');
-const sequelize = require('./config/database');
+const sequelize = require('./config/dbConnection');
 const User = require('./models/User');
 const TrashPoint = require('./models/TrashPoint');
 const verifyToken = require('./middleware/auth.middleware');
@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 
 app.get('/personal', verifyToken, (req, res) => {
     //TODO
-    return res.json({ message: 'Welcome to the personal route!', messageColor: CONSTS.colors.red, user: req.user });
+    return res.json({ message: 'Welcome to the personal route!', messageColor: CONSTS.colors.green, user: req.user });
 });
 
 //signup
@@ -67,7 +67,7 @@ app.post(
             const candidate = await User.findOne({ where: { email: email } });
 
             if (candidate) {
-                return res.status(400).json({ message: 'Такой пользователь уже существует!', messageColor: CONSTS.colors.yellow });
+                return res.status(400).json({ message: 'Такой пользователь уже существует!', messageColor: CONSTS.colors.red });
             }
 
             const hashedPassword = await bcrypt.hash(password, 10); //10 - saltLength

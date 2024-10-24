@@ -1,4 +1,4 @@
-import { showToastifyErrorMessage } from './utils/showToastifyErrorMessage.js';
+import { showMessage } from './utils/showMessage.js';
 
 const signInRoute = () => {
     const authForm = document.getElementById('auth-form');
@@ -7,10 +7,7 @@ const signInRoute = () => {
         authForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            //TODO: добавить проверку что пользователь уже залогинен
-            if (document.cookie.includes('user')) {
-                return console.warn('Вы уже авторизованы.');
-            }
+            if (document.cookie.includes('user')) return console.warn('Вы уже авторизованы.');
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -24,34 +21,19 @@ const signInRoute = () => {
                     body: JSON.stringify({ email, password }),
                 });
 
-                if (!response.ok) {
-                    console.error(`Error: ${response.status} ${response.statusText}`);
-                }
+                if (!response.ok) console.error(`Error: ${response.status} ${response.statusText}`);
 
                 const data = await response.json();
 
-                if (data.message) {
-                    Toastify({
-                        text: data.message,
-                        duration: 3000,
-                        gravity: 'top',
-                        position: 'center',
-                        style: {
-                            background: data.messageColor
-                        },
-                    }).showToast();
-                }
+                if (data.message) showMessage({ text: data.message, color: data.messageColor });
 
-                //TODO: сделать SPA?
                 if (data.token) {
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 1500);
                 }
             } catch (error) {
-                showToastifyErrorMessage();
-
-                console.error(error);
+                showMessage({ text: error, type: 'error' });
             }
         });
     }
@@ -72,24 +54,14 @@ const signOutRoute = () => {
                 const data = await response.json();
 
                 if (data) {
-                    Toastify({
-                        text: data.message,
-                        duration: 3000,
-                        gravity: 'top',
-                        position: 'center',
-                        style: {
-                            background: data.messageColor
-                        },
-                    }).showToast();
+                    showMessage({ text: data.message, color: data.messageColor });
 
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 1000);
                 }
             } catch (error) {
-                showToastifyErrorMessage();
-
-                console.error(error);
+                showMessage({ text: error, type: 'error' });
             }
         });
     }
@@ -100,9 +72,7 @@ const personalRoute = () => {
     try {
         
     } catch (error) {
-        showToastifyErrorMessage();
-
-        console.error(error);
+        showMessage({ text: error, type: 'error' });
     }
 };
 */
